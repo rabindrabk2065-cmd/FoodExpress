@@ -1,0 +1,163 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Successful | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/order_success.css' %}">
+
+</head>
+
+<body>
+
+    <div class="success-container">
+
+        <div class="success-card">
+
+            <!-- SUCCESS ICON -->
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <!-- TITLE -->
+
+            <h1>
+                Order Placed Successfully!
+            </h1>
+
+            <p class="thank-you">
+                Thank you for ordering from
+                <strong>FoodExpress</strong>.
+            </p>
+
+
+            <!-- ORDER INFO -->
+
+            {% if order %}
+
+            <div class="order-box">
+
+                <div class="order-row">
+
+                    <span>Order ID</span>
+
+                    <strong>
+                        #{{ order.id }}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>Customer</span>
+
+                    <strong>
+                        {{ order.name }}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>Phone</span>
+
+                    <strong>
+                        {{ order.phone }}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>Payment</span>
+
+                    <strong>
+                        {{ order.get_payment_method_display }}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>Status</span>
+
+                    <strong class="status">
+                        {{ order.status }}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row total-row">
+
+                    <span>Total Amount</span>
+
+                    <strong>
+                        Rs. {{ order.total_amount }}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-date">
+
+                    Ordered on:
+                    {{ order.created_at|date:"M d, Y - h:i A" }}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- MESSAGE -->
+
+            <p class="message">
+
+                Your order has been received successfully.
+                We will prepare your food and deliver it soon.
+
+            </p>
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <a href="{% url 'home' %}" class="home-btn">
+                    ← Back to Home
+                </a>
+
+
+                <a href="{% url 'food' %}" class="food-btn">
+                    Order More Food
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        // Order successfully placed
+        // Clear old cart data
+        localStorage.removeItem("foodCart");
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,527 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Us | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css">
+
+</head>
+
+<body>
+
+    <!-- ==================================================
+     NAVBAR
+================================================== -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="{% url 'home' %}" class="logo">
+                Food<span>Express</span>
+            </a>
+
+
+            <nav class="nav-menu">
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'restaurants' %}">
+                    Restaurants
+                </a>
+
+                <a href="{% url 'food' %}">
+                    Foods
+                </a>
+
+                <a href="#">
+                    Offers
+                </a>
+
+                <a href="#">
+                    About
+                </a>
+
+                <a href="{% url 'contact' %}" class="active">
+                    Contact
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <a href="{% url 'cart' %}" class="cart">
+                    🛒 Cart
+                </a>
+
+
+                {% if user.is_authenticated %}
+
+                <a href="{% url 'dashboard' %}" class="login-btn">
+                    Dashboard
+                </a>
+
+                <a href="{% url 'logout' %}" class="login-btn">
+                    Logout
+                </a>
+
+                {% else %}
+
+                <a href="{% url 'login' %}" class="login-btn">
+                    Login
+                </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <button class="menu-toggle" id="menuToggle" type="button">
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ==================================================
+     CONTACT HERO
+================================================== -->
+
+    <section class="contact-hero">
+
+        <div class="hero-content">
+
+            <span class="hero-label">
+                GET IN TOUCH
+            </span>
+
+            <h1>
+                We'd Love To
+                <span>Hear From You</span>
+            </h1>
+
+            <p>
+                Have a question, suggestion, or need help with your order?
+                Our FoodExpress team is here to help.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+     CONTACT SECTION
+================================================== -->
+
+    <main class="contact-section">
+
+        <div class="contact-container">
+
+
+            <!-- ==================================================
+             LEFT SIDE - CONTACT INFORMATION
+        ================================================== -->
+
+            <div class="contact-info">
+
+                <span class="section-label">
+                    CONTACT US
+                </span>
+
+
+                <h2>
+                    Let's Talk About
+                    <span>Your Food</span>
+                </h2>
+
+
+                <p class="info-description">
+                    Reach out to FoodExpress anytime. We are happy to help
+                    you with orders, delivery, restaurants, or any other
+                    questions.
+                </p>
+
+
+
+                {% if contact_info %}
+
+
+                <!-- PHONE -->
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+                        📞
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Phone
+                        </h3>
+
+                        <p>
+                            {{ contact_info.phone }}
+                        </p>
+
+                        <a href="tel:{{ contact_info.phone }}">
+                            Call us now
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EMAIL -->
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+                        📧
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Email
+                        </h3>
+
+                        <p>
+                            {{ contact_info.email }}
+                        </p>
+
+                        <a href="mailto:{{ contact_info.email }}">
+                            Send us an email
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ADDRESS -->
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+                        📍
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Address
+                        </h3>
+
+                        <p>
+                            {{ contact_info.address }}
+                        </p>
+
+                        <span>
+                            {{ contact_info.business_name }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- OPENING HOURS -->
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+                        🕐
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Opening Hours
+                        </h3>
+
+                        <p>
+                            {{ contact_info.opening_hours }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {% else %}
+
+                <p>
+                    Contact information is not available.
+                </p>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- ==================================================
+             RIGHT SIDE - CONTACT FORM
+        ================================================== -->
+
+            <div class="contact-form-wrapper">
+
+
+                <div class="form-header">
+
+                    <span>
+                        SEND MESSAGE
+                    </span>
+
+                    <h2>
+                        How Can We Help?
+                    </h2>
+
+                    <p>
+                        Fill out the form below and our team will get back
+                        to you as soon as possible.
+                    </p>
+
+                </div>
+
+
+
+                <form id="contactForm" method="post" action="{% url 'contact' %}">
+
+                    {% csrf_token %}
+
+
+                    <!-- NAME + EMAIL -->
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label for="name">
+                                Full Name
+                            </label>
+
+                            <input type="text" id="name" name="name" placeholder="Enter your name" maxlength="50"
+                                autocomplete="name">
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <input type="email" id="email" name="email" placeholder="Enter your email" maxlength="100"
+                                autocomplete="email">
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SUBJECT -->
+
+                    <div class="form-group">
+
+                        <label for="subject">
+                            Subject
+                        </label>
+
+                        <input type="text" id="subject" name="subject" placeholder="What is this about?"
+                            maxlength="100">
+
+                    </div>
+
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="form-group">
+
+                        <label for="message">
+                            Message
+                        </label>
+
+                        <textarea id="message" name="message" rows="6" placeholder="Write your message..."
+                            maxlength="500"></textarea>
+
+
+                        <div class="character-count">
+
+                            <span id="messageCount">
+                                0
+                            </span>
+
+                            /500
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SEND BUTTON -->
+
+                    <button type="submit" class="send-btn">
+
+                        <span>
+                            Send Message
+                        </span>
+
+                        <span>
+                            ➜
+                        </span>
+
+                    </button>
+
+
+                    <!-- FORM MESSAGE -->
+
+                    <p id="formMessage" class="form-message"></p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ==================================================
+     LOCATION / MAP SECTION
+================================================== -->
+
+    <section class="map-section">
+
+        <div class="map-heading">
+            <span>FIND US</span>
+
+            <h2>Our <strong>Location</strong></h2>
+
+            <p>
+                Find our hotel and get directions from your current location.
+            </p>
+        </div>
+
+        <div class="map-container">
+
+            <div id="map"></div>
+
+            <button id="locationBtn" class="location-btn" type="button">
+                📍 Use My Location
+            </button>
+
+        </div>
+
+        <div id="routeInfo" class="route-info" style="display:none;">
+
+            <div>
+                <strong>📏 Distance</strong>
+                <span id="distance">--</span>
+            </div>
+
+            <div>
+                <strong>⏱️ Estimated Time</strong>
+                <span id="duration">--</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CURRENT LOCATION BUTTON -->
+
+    <button id="locationBtn" class="location-btn" type="button">
+        📍 Use My Location
+    </button>
+
+    </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+     FOOTER
+================================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+
+            <div class="footer-brand">
+
+                <a href="{% url 'home' %}" class="logo">
+                    Food<span>Express</span>
+                </a>
+
+                <p>
+                    Delicious food delivered to your doorstep.
+                </p>
+
+            </div>
+
+
+            <div class="footer-copy">
+
+                © 2026 FoodExpress. All rights reserved.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- ==================================================
+     LEAFLET MAP JS
+================================================== -->
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+    <!-- CONTACT JS -->
+
+    <script src="{% static 'js/contact.js' %}"></script>
+
+
+</body>
+
+</html>

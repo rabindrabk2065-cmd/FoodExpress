@@ -1,0 +1,251 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Foods | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/food.css' %}">
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="logo">
+            🍜 FoodExpress
+        </div>
+
+        <nav class="navbar">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'food' %}" class="active">
+                Foods
+            </a>
+
+            <a href="{% url 'restaurants' %}">
+                Restaurants
+            </a>
+
+            <a href="{% url 'cart' %}" class="cart-link">
+                🛒 Cart
+                <span id="cartCount">0</span>
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <section class="food-hero">
+
+        <div class="hero-content">
+
+            <span class="small-title">
+                FOODEXPRESS
+            </span>
+
+            <h1>
+                Explore Our
+                <span>Delicious Foods</span>
+            </h1>
+
+            <p>
+                Choose your favorite food category
+                and discover delicious meals.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <main class="food-container">
+
+        <div class="section-heading">
+
+            <span>
+                🍽️ WHAT ARE YOU CRAVING?
+            </span>
+
+            <h2>
+                Food Categories
+            </h2>
+
+            <p>
+                Select a category to explore delicious foods
+            </p>
+
+        </div>
+
+
+        <div class="category-grid">
+
+            {% for category in categories %}
+
+            <div class="category-card">
+
+                <div class="category-image">
+
+                    {% if category.image %}
+
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}">
+
+                    {% else %}
+
+                    <div class="no-image">
+                        No Image
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="category-content">
+
+                    <div class="category-icon">
+
+                        {% if category.name|lower == "chowmein" %}
+
+                        🍜
+
+                        {% elif category.name|lower == "momo" %}
+
+                        🥟
+
+                        {% elif category.name|lower == "pizza" %}
+
+                        🍕
+
+                        {% elif category.name|lower == "burger" %}
+
+                        🍔
+
+                        {% elif category.name|lower == "biryani" %}
+
+                        🍚
+
+                        {% elif category.name|lower == "fried rice" %}
+
+                        🍚
+
+                        {% else %}
+
+                        🍝
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <h3>
+                        {{ category.name }}
+                    </h3>
+
+
+                    <p>
+                        Explore delicious
+                        {{ category.name }}
+                        items.
+                    </p>
+
+
+                    <a href="{% url 'category_detail' category.id %}" class="explore-btn">
+                        Explore →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            {% empty %}
+
+            <div class="no-category">
+
+                <h3>
+                    No food categories available.
+                </h3>
+
+                <p>
+                    Please add food categories
+                    from Django Admin.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="footer-logo">
+            🍜 FoodExpress
+        </div>
+
+        <p>
+            Delicious food delivered to your door.
+        </p>
+
+        <p class="copyright">
+            © 2026 FoodExpress. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const cartCount = document.getElementById("cartCount");
+
+            let cart = [];
+
+            try {
+
+                cart = JSON.parse(
+                    localStorage.getItem("foodCart")
+                ) || [];
+
+            } catch (error) {
+
+                cart = [];
+
+            }
+
+
+            let totalQuantity = 0;
+
+            cart.forEach(function (item) {
+
+                totalQuantity += Number(
+                    item.quantity || 0
+                );
+
+            });
+
+
+            cartCount.textContent = totalQuantity;
+
+        });
+
+    </script>
+
+</body>
+
+</html>

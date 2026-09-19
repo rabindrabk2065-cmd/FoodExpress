@@ -1,0 +1,115 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurants | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/restaurants.css' %}">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            FoodExpress
+        </div>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="{% url 'restaurants' %}" class="active">Restaurants</a>
+            <a href="#">Foods</a>
+            <a href="#">Offers</a>
+            <a href="#">About</a>
+        </nav>
+    </header>
+
+
+    <section class="restaurant-page">
+
+        <div class="page-heading">
+            <h1>Explore Restaurants</h1>
+            <p>Find your favorite restaurant and order delicious food.</p>
+        </div>
+
+
+        <div class="search-box">
+            <input type="text" id="restaurantSearch" placeholder="Search restaurants..." onkeyup="searchRestaurants()">
+        </div>
+
+
+        <div class="restaurant-grid">
+
+            <div class="restaurant-card">
+                <img src="{% static 'image/image.png' %}" alt="Restaurant">
+
+                <div class="restaurant-info">
+                    <h2>Food House</h2>
+                    <p>Delicious Nepali and fast food.</p>
+
+                    <div class="restaurant-details">
+                        <span>⭐ 4.5</span>
+                        <span>📍 Surkhet</span>
+                        <span>🚴 30 min</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View Foods
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="restaurant-card">
+                <img src="{% static 'image/image.png' %}" alt="Restaurant">
+
+                <div class="restaurant-info">
+                    <h2>Momo House</h2>
+                    <p>Fresh momo and tasty snacks.</p>
+
+                    <div class="restaurant-details">
+                        <span>⭐ 4.7</span>
+                        <span>📍 Surkhet</span>
+                        <span>🚴 25 min</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View Foods
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="restaurant-card">
+                <img src="{% static 'image/image.png' %}" alt="Restaurant">
+
+                <div class="restaurant-info">
+                    <h2>Everest Restaurant</h2>
+                    <p>Traditional and modern food.</p>
+
+                    <div class="restaurant-details">
+                        <span>⭐ 4.6</span>
+                        <span>📍 Birendranagar</span>
+                        <span>🚴 35 min</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View Foods
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <script src="{% static 'js/restaurants.js' %}"></script>
+
+</body>
+
+</html>

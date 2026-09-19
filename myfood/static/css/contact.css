@@ -1,0 +1,548 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f8f8;
+    color: #222;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.logo {
+    text-decoration: none;
+    color: #222;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #ff5722;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #444;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: #ff5722;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart,
+.login-btn {
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.cart {
+    color: #333;
+}
+
+.login-btn {
+    background: #ff5722;
+    color: white;
+}
+
+.login-btn:hover {
+    background: #e64a19;
+}
+
+.menu-toggle {
+    display: none;
+    border: none;
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.contact-hero {
+    min-height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background:
+        linear-gradient(rgba(20, 20, 20, 0.75),
+            rgba(20, 20, 20, 0.75)),
+        url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80") center/cover;
+}
+
+.hero-content {
+    max-width: 750px;
+    color: white;
+}
+
+.hero-label,
+.section-label,
+.form-header span,
+.map-heading span {
+    color: #ff7043;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.hero-content h1 {
+    font-size: 52px;
+    line-height: 1.1;
+    margin: 15px 0;
+}
+
+.hero-content h1 span {
+    color: #ff7043;
+}
+
+.hero-content p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #eeeeee;
+}
+
+
+/* =========================
+   CONTACT SECTION
+========================= */
+
+.contact-section {
+    padding: 80px 20px;
+}
+
+.contact-container {
+    max-width: 1150px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+}
+
+.contact-info h2 {
+    font-size: 38px;
+    margin: 12px 0 15px;
+    line-height: 1.2;
+}
+
+.contact-info h2 span {
+    color: #ff5722;
+}
+
+.info-description {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   INFO CARDS
+========================= */
+
+.info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.info-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #fff0eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+}
+
+.info-card h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.info-card p {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.info-card a,
+.info-card span {
+    color: #ff5722;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.contact-form-wrapper {
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.form-header h2 {
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+.form-header p {
+    color: #777;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid #dddddd;
+    border-radius: 9px;
+    padding: 13px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: 0.3s;
+    background: #fafafa;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #ff5722;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.08);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.character-count {
+    text-align: right;
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+}
+
+.send-btn {
+    width: 100%;
+    border: none;
+    background: #ff5722;
+    color: white;
+    padding: 14px;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.send-btn:hover {
+    background: #e64a19;
+    transform: translateY(-1px);
+}
+
+.form-message {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   MAP
+========================= */
+
+.map-section {
+    padding: 20px 20px 80px;
+}
+
+.map-heading {
+    max-width: 1150px;
+    margin: 0 auto 25px;
+}
+
+.map-heading h2 {
+    font-size: 35px;
+    margin: 10px 0;
+}
+
+.map-heading strong {
+    color: #ff5722;
+}
+
+.map-heading p {
+    color: #777;
+    line-height: 1.6;
+}
+
+.map-container {
+    max-width: 1150px;
+    height: 450px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.location-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 500;
+    border: none;
+    background: white;
+    color: #333;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+}
+
+.location-btn:hover {
+    background: #ff5722;
+    color: white;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    background: #181818;
+    color: white;
+    padding: 35px 20px;
+}
+
+.footer-container {
+    max-width: 1150px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-brand p {
+    color: #aaa;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.footer .logo {
+    color: white;
+}
+
+.footer-copy {
+    color: #999;
+    font-size: 13px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 950px) {
+
+    .nav-menu {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-actions {
+        margin-left: auto;
+    }
+
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .nav-container {
+        padding: 15px;
+    }
+
+    .cart {
+        display: none;
+    }
+
+    .login-btn {
+        padding: 8px 11px;
+        font-size: 12px;
+    }
+
+    .hero-content h1 {
+        font-size: 37px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
+    }
+
+    .contact-section {
+        padding: 55px 15px;
+    }
+
+    .contact-info h2 {
+        font-size: 30px;
+    }
+
+    .contact-form-wrapper {
+        padding: 22px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .map-section {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .map-container {
+        height: 380px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+}
+
+#map {
+    width: 100%;
+    height: 500px;
+    border-radius: 15px;
+}
+
+.map-container {
+    position: relative;
+}
+
+.location-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.route-info {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.route-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.route-info span {
+    font-size: 18px;
+    font-weight: 600;
+}

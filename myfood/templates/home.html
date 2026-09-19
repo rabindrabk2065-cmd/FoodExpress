@@ -1,0 +1,277 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>FoodExpress | Food Delivery</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+
+</head>
+
+<body>
+
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-container">
+
+            <!-- Logo -->
+            <a href="#" class="logo">
+                Food<span>Express</span>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="nav-menu" id="navMenu">
+                <a href="/" class="active">Home</a>
+                <a href="{% url 'restaurants' %}">Restaurants</a>
+                <a href="{% url 'food' %}">Foods</a>
+                <a href="#">Offers</a>
+                <a href="#">About</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </nav>
+
+            <!-- Right Side -->
+            <!-- Right Side -->
+            <div class="nav-actions">
+
+                <a href="{% url 'cart' %}" class="cart">
+                    🛒 Cart
+                </a>
+
+                {% if user.is_authenticated %}
+
+                <a href="{% url 'dashboard' %}" class="login-btn">
+                    Dashboard
+                </a>
+
+                <a href="{% url 'logout' %}" class="login-btn">
+                    Logout
+                </a>
+
+                {% else %}
+
+                <a href="{% url 'login' %}" class="login-btn">
+                    Login
+                </a>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Mobile Menu -->
+            <button class="menu-toggle" id="menuToggle">
+                ☰
+            </button>
+
+        </div>
+    </header>
+
+    <!-- RESTAURANT HERO SECTION -->
+
+    <section class="restaurant-hero">
+
+
+        <div class="restaurant-hero-content">
+
+            <p class="hero-tag">WELCOME TO FOOD EXPRESS</p>
+
+            <h1>
+                Delicious Food
+                <span>Made With Love</span>
+            </h1>
+
+            <p class="hero-text">
+                Enjoy fresh, tasty and delicious food from
+                your favorite restaurants. Order your favorite
+                meal and get it delivered to your door.
+            </p>
+
+            <div class="hero-info">
+                <div>
+                    <strong>⭐ 4.8</strong>
+                    <small>Rating</small>
+                </div>
+
+                <div>
+                    <strong>🚴 25 min</strong>
+                    <small>Delivery</small>
+                </div>
+
+                <div>
+                    <strong>🍴 100+</strong>
+                    <small>Foods</small>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="#" class="order-btn">Order Now</a>
+                <a href="#" class="menu-btn">View Menu</a>
+            </div>
+
+        </div>
+        {% if home and home.image %}
+        <div class="restaurant-hero-image">
+            <img src="{{ home.image.url }}" alt="Restaurant">
+        </div>
+        {% else %}
+        <p>Hero image भेटिएन</p>
+        {% endif %}
+
+
+    </section>
+    <!-- FOOD CATEGORIES -->
+
+    <section class="food-categories">
+
+
+        <div class="category-heading">
+            <p>EXPLORE OUR MENU</p>
+            <h2>Food Categories</h2>
+            <span>Choose your favorite food category</span>
+        </div>
+
+        <div class="category-grid">
+
+            <a href="" class="category-card">
+                <div class="category-icon">🍜</div>
+                <h3>Chowmein</h3>
+                <p>8 Items</p>
+            </a>
+
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🥟</div>
+                <h3>Momo</h3>
+                <p>10 Items</p>
+            </a>
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🍟</div>
+                <h3>Snacks</h3>
+                <p>12 Items</p>
+            </a>
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🍕</div>
+                <h3>Pizza</h3>
+                <p>8 Items</p>
+            </a>
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🍔</div>
+                <h3>Burger</h3>
+                <p>7 Items</p>
+            </a>
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🍗</div>
+                <h3>Chicken</h3>
+                <p>9 Items</p>
+            </a>
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🍛</div>
+                <h3>Thakali</h3>
+                <p>6 Items</p>
+            </a>
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🥘</div>
+                <h3>Newari</h3>
+                <p>8 Items</p>
+            </a>
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🍰</div>
+                <h3>Desserts</h3>
+                <p>6 Items</p>
+            </a>
+
+            <a href="#" class="category-card">
+                <div class="category-icon">🥤</div>
+                <h3>Drinks</h3>
+                <p>10 Items</p>
+            </a>
+
+        </div>
+
+        <div class="category-view-all">
+            <a href="{% url 'food' %}">View All Foods →</a>
+        </div>
+
+
+    </section>
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <!-- Brand -->
+            <div class="footer-box">
+                <h2>FoodExpress</h2>
+                <p>
+                    Delicious food delivered to your doorstep.
+                    Order your favorite food easily and quickly.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-box">
+                <h3>Quick Links</h3>
+                <a href="/">Home</a>
+                <a href="#">Restaurants</a>
+                <a href="#">Foods</a>
+                <a href="#">Offers</a>
+                <a href="#">About Us</a>
+            </div>
+
+            <!-- Customer Support -->
+            <div class="footer-box">
+                <h3>Customer Support</h3>
+                <a href="#">Contact Us</a>
+                <a href="#">FAQ</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms & Conditions</a>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-box">
+                <h3>Contact Us</h3>
+                <p>📍 Surkhet, Nepal</p>
+                <p>📞 +977 98XXXXXXXX</p>
+                <p>✉️ foodexpress@gmail.com</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 FoodExpress. All Rights Reserved.</p>
+
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">TikTok</a>
+            </div>
+        </div>
+
+    </footer>
+
+
+
+
+
+
+
+    <script src="{% static 'js/home.js' %}"></script>
+
+
+</body>
+
+</html>

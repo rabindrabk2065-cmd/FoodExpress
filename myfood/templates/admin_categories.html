@@ -1,0 +1,343 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Categories | FoodExpress Admin</title>
+
+    <link rel="stylesheet" href="{% static 'css/admin_categories.css' %}">
+</head>
+
+<body>
+
+<div class="admin-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🍴</div>
+            <div>
+                <h2>FoodExpress</h2>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="{% url 'admin_dashboard' %}">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_orders' %}">
+                <span>🛒</span>
+                Orders
+            </a>
+
+            <a href="{% url 'admin_foods' %}">
+                <span>🍔</span>
+                Foods
+            </a>
+
+            <a href="{% url 'admin_categories' %}" class="active">
+                <span>📂</span>
+                Categories
+            </a>
+
+            <a href="{% url 'admin_users' %}">
+                <span>👤</span>
+                Users
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'home' %}">
+                <span>🌐</span>
+                View Website
+            </a>
+
+            <a href="/admin/logout/">
+                <span>🚪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <h1>Categories</h1>
+                <p>Manage your food categories</p>
+            </div>
+
+            <button class="add-btn" id="openAddCategory">
+                + Add Category
+            </button>
+
+        </header>
+
+
+        <!-- STATS -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon">📂</div>
+
+                <div>
+                    <span>Total Categories</span>
+                    <strong>{{ categories|length }}</strong>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon">🍔</div>
+
+                <div>
+                    <span>Total Foods</span>
+                    <strong id="totalFoods">0</strong>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon">🟢</div>
+
+                <div>
+                    <span>Active Categories</span>
+                    <strong>{{ categories|length }}</strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- SEARCH -->
+        <section class="toolbar">
+
+            <div class="search-box">
+                <span>🔍</span>
+                <input
+                    type="text"
+                    id="categorySearch"
+                    placeholder="Search category..."
+                >
+            </div>
+
+        </section>
+
+
+        <!-- CATEGORY GRID -->
+        <section class="category-grid" id="categoryGrid">
+
+            {% for category in categories %}
+
+            <div
+                class="category-card"
+                data-name="{{ category.name|lower }}"
+            >
+
+                <div class="category-image">
+
+                    {% if category.image %}
+                        <img
+                            src="{{ category.image.url }}"
+                            alt="{{ category.name }}"
+                        >
+                    {% else %}
+                        <div class="no-image">
+                            🍽️
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="category-info">
+
+                    <div class="category-title">
+                        <h3>{{ category.name }}</h3>
+
+                        <span class="status active-status">
+                            Active
+                        </span>
+                    </div>
+
+
+                    <div class="category-meta">
+
+                        <div>
+                            <span class="meta-label">Foods</span>
+                            <strong>
+                                {{ category.foods.count }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span class="meta-label">Category ID</span>
+                            <strong>
+                                #{{ category.id }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="category-actions">
+
+                        <button
+                            class="edit-btn"
+                            onclick="editCategory('{{ category.id }}', '{{ category.name|escapejs }}')"
+                        >
+                            ✏️ Edit
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteCategory('{{ category.id }}', '{{ category.name|escapejs }}')"
+                        >
+                            🗑️ Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">📂</div>
+
+                <h3>No Categories Found</h3>
+
+                <p>
+                    Add your first food category from the admin panel.
+                </p>
+
+                <button class="add-btn" id="openAddCategoryEmpty">
+                    + Add Category
+                </button>
+
+            </div>
+
+            {% endfor %}
+
+        </section>
+
+
+        <!-- NO SEARCH RESULT -->
+        <div class="no-results" id="noResults">
+
+            <div>🔍</div>
+
+            <h3>No matching categories</h3>
+
+            <p>
+                Try searching with another category name.
+            </p>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ADD CATEGORY MODAL -->
+<div class="modal-overlay" id="categoryModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <h2>Add Category</h2>
+                <p>Create a new food category</p>
+            </div>
+
+            <button class="close-btn" id="closeCategoryModal">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="categoryForm">
+
+            <div class="form-group">
+
+                <label for="categoryName">
+                    Category Name
+                </label>
+
+                <input
+                    type="text"
+                    id="categoryName"
+                    placeholder="Example: Pizza"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="categoryImage">
+                    Category Image
+                </label>
+
+                <input
+                    type="file"
+                    id="categoryImage"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelCategory"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Category
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="{% static 'js/admin_categories.js' %}"></script>
+
+</body>
+</html>

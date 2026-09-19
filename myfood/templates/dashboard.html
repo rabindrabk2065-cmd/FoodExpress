@@ -1,0 +1,432 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+
+<body>
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <span>🍴</span>
+            <h2>FoodExpress</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="{% url 'dashboard' %}" class="nav-link active">
+                <span>🏠</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{% url 'restaurants' %}" class="nav-link">
+                <span>🍽️</span>
+                <span>Restaurants</span>
+            </a>
+
+            <a href="{% url 'food' %}" class="nav-link">
+                <span>🍔</span>
+                <span>Foods</span>
+            </a>
+
+            <a href="{% url 'cart' %}" class="nav-link">
+                <span>🛒</span>
+                <span>My Cart</span>
+                <span class="cart-badge" id="cartCount">0</span>
+            </a>
+
+            <a href="{% url 'checkout' %}" class="nav-link">
+                <span>💳</span>
+                <span>Checkout</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="#" class="nav-link">
+                <span>⚙️</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="{% url 'logout' %}" class="nav-link logout-link">
+                <span>🚪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <button class="menu-btn" id="menuBtn">
+                ☰
+            </button>
+
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="Search foods...">
+            </div>
+
+            <div class="topbar-right">
+
+                <button class="notification-btn" id="notificationBtn">
+                    🔔
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="user-profile">
+
+                    <div class="user-avatar">
+                        {{ user.username|first|upper }}
+                    </div>
+
+                    <div class="user-info">
+                        <strong>{{ user.username }}</strong>
+                        <small>Food Lover</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="dashboard-content">
+
+            <div class="welcome-section">
+
+                <div>
+
+                    <p class="welcome-label">
+                        Welcome back 👋
+                    </p>
+
+                    <h1>
+                        Welcome, {{ user.username }}!
+                    </h1>
+
+                    <p>
+                        Ready to order your favourite food today?
+                    </p>
+
+                </div>
+
+                <a href="{% url 'food' %}" class="order-btn">
+                    Order Food
+                </a>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📦
+                    </div>
+
+                    <div>
+                        <span>Total Orders</span>
+                        <h2>{{ total_orders }}</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🛒
+                    </div>
+
+                    <div>
+                        <span>Cart Items</span>
+                        <h2 id="dashboardCartCount">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ❤️
+                    </div>
+
+                    <div>
+                        <span>Favourite Foods</span>
+                        <h2>0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ⭐
+                    </div>
+
+                    <div>
+                        <span>Reviews</span>
+                        <h2>0</h2>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <section class="recent-orders card">
+
+                    <div class="section-header">
+
+                        <div>
+                            <h2>Recent Orders</h2>
+                            <p>Your latest food orders</p>
+                        </div>
+
+                    </div>
+
+
+                    {% if recent_orders %}
+
+                    <div class="orders-list">
+
+                        {% for order in recent_orders %}
+
+                        <div class="order-item">
+
+                            <div class="order-icon">
+                                🍽️
+                            </div>
+
+                            <div class="order-info">
+
+                                <strong>
+                                    <a href="{% url 'order_detail' order.id %}" class="view-order-btn">
+                                        View Details →
+                                    </a>
+                                </strong>
+
+                                <small>
+                                    {{ order.created_at|date:"M d, Y - h:i A" }}
+                                </small>
+
+                            </div>
+
+                            <div class="order-status">
+
+                                <span class="status-{{ order.status|slugify }}">
+                                    {{ order.status }}
+                                </span>
+
+                            </div>
+
+                            <div class="order-price">
+
+                                <strong>
+                                    Rs. {{ order.total_amount }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="empty-state" id="emptyOrders">
+
+                        <div class="empty-icon">
+                            🍽️
+                        </div>
+
+                        <h3>
+                            No orders yet
+                        </h3>
+
+                        <p>
+                            Your recent orders will appear here.
+                        </p>
+
+                        <a href="{% url 'food' %}" class="browse-btn">
+                            Browse Foods
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                </section>
+
+
+                <section class="quick-actions card">
+
+                    <div class="section-header">
+
+                        <div>
+                            <h2>Quick Actions</h2>
+                            <p>Manage your FoodExpress</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="action-list">
+
+                        <a href="{% url 'food' %}" class="action-item">
+
+                            <div class="action-icon">
+                                🍔
+                            </div>
+
+                            <div>
+                                <strong>Browse Foods</strong>
+                                <small>Explore our menu</small>
+                            </div>
+
+                            <span>→</span>
+
+                        </a>
+
+
+                        <a href="{% url 'cart' %}" class="action-item">
+
+                            <div class="action-icon">
+                                🛒
+                            </div>
+
+                            <div>
+                                <strong>View Cart</strong>
+                                <small>Check your selected items</small>
+                            </div>
+
+                            <span>→</span>
+
+                        </a>
+
+
+                        <a href="{% url 'restaurants' %}" class="action-item">
+
+                            <div class="action-icon">
+                                🏪
+                            </div>
+
+                            <div>
+                                <strong>Restaurants</strong>
+                                <small>Find restaurants</small>
+                            </div>
+
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <section class="popular-section card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>FoodExpress</h2>
+                        <p>
+                            Delicious food delivered to your door
+                        </p>
+                    </div>
+
+                    <a href="{% url 'food' %}">
+                        Explore Menu →
+                    </a>
+
+                </div>
+
+
+                <div class="promo-content">
+
+                    <div>
+
+                        <h2>
+                            Hungry? Let's fix that! 🍕
+                        </h2>
+
+                        <p>
+                            Discover delicious foods and order your
+                            favourites from FoodExpress.
+                        </p>
+
+                        <a href="{% url 'food' %}" class="promo-btn">
+                            Start Ordering
+                        </a>
+
+                    </div>
+
+                    <div class="promo-emoji">
+                        🍕
+                    </div>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <div class="notification-panel" id="notificationPanel">
+
+        <div class="notification-header">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <button id="closeNotification">
+                ×
+            </button>
+
+        </div>
+
+        <div class="notification-body">
+
+            <p>
+                🔔 No new notifications.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+
+</body>
+
+</html>

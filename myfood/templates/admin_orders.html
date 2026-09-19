@@ -1,0 +1,239 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Orders | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/admin_orders.css' %}">
+
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🍴 FoodExpress
+        </div>
+
+        <nav>
+
+            <a href="{% url 'admin_dashboard' %}">
+                🏠 Dashboard
+            </a>
+
+            <a href="{% url 'admin_orders' %}" class="active">
+                📦 Orders
+            </a>
+
+            <a href="{% url 'admin_foods' %}">
+                🍔 Foods
+            </a>
+
+            <a href="{% url 'admin_categories' %}">
+                📂 Categories
+            </a>
+
+            <a href="{% url 'admin_users' %}">
+                👤 Users
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'dashboard' %}">
+                ← Customer Dashboard
+            </a>
+
+            <a href="{% url 'logout' %}">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Orders
+                </h1>
+
+                <p>
+                    Manage all customer orders
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <section class="orders-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        All Orders
+                    </h2>
+
+                    <p>
+                        Customer order management
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if orders %}
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Order
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Payment
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Total
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for order in orders %}
+
+                        <tr>
+
+                            <td>
+                                #{{ order.id }}
+                            </td>
+
+
+                            <td>
+
+                                {% if order.user %}
+
+                                {{ order.user.username }}
+
+                                {% else %}
+
+                                Guest
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+                                {{ order.payment_method }}
+                            </td>
+
+
+                            <td>
+
+                                <span class="status">
+                                    {{ order.status }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                Rs. {{ order.total_amount }}
+                            </td>
+
+
+                            <td>
+                                {{ order.created_at|date:"M d, Y - h:i A" }}
+                            </td>
+
+
+                            <td>
+
+                                <a href="{% url 'admin_order_detail' order.id %}" class="view-btn">
+                                    View
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    📦
+                </div>
+
+                <h3>
+                    No Orders Found
+                </h3>
+
+                <p>
+                    Customer orders will appear here.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

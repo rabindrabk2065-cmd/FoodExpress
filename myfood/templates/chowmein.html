@@ -1,0 +1,255 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    ```
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chowmein | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/chowmein.css' %}">
+    ```
+
+</head>
+
+<body>
+
+    ```
+    <header class="header">
+
+        <div class="logo">
+            🍜 FoodExpress
+        </div>
+
+        <a href="{% url 'cart' %}" class="cart">
+            🛒 Cart
+            <span id="cartCount">0</span>
+        </a>
+
+    </header>
+
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>🍜 Chowmein</h1>
+
+            <p>
+                Enjoy delicious Veg, Chicken, Buff,
+                Egg and Special Chowmein.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <main class="container">
+
+        <div class="page-title">
+
+            <h2>All Chowmein</h2>
+
+            <p>
+                Choose your favorite Chowmein
+                from our delicious menu.
+            </p>
+
+        </div>
+
+
+        <div class="categories">
+
+            <button class="category-btn active" onclick="filterFood('all', this)">
+                All
+            </button>
+
+            <button class="category-btn" onclick="filterFood('veg', this)">
+                🥬 Veg
+            </button>
+
+            <button class="category-btn" onclick="filterFood('chicken', this)">
+                🍗 Chicken
+            </button>
+
+            <button class="category-btn" onclick="filterFood('buff', this)">
+                🐃 Buff
+            </button>
+
+            <button class="category-btn" onclick="filterFood('egg', this)">
+                🥚 Egg
+            </button>
+
+            <button class="category-btn" onclick="filterFood('special', this)">
+                ⭐ Special
+            </button>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input type="text" id="searchInput" placeholder="🔍 Search Chowmein..." onkeyup="searchFood()">
+
+        </div>
+
+
+        <div class="food-grid">
+
+            {% for food in foods %}
+
+            <div class="food-card" data-category="{{ food.name|lower }}" data-name="{{ food.name|lower }}">
+
+                <div class="food-image">
+
+                    {% if food.image %}
+
+                    <img src="{{ food.image.url }}" alt="{{ food.name }}">
+
+                    {% else %}
+
+                    <img src="{% static 'image/no-food.jpg' %}" alt="{{ food.name }}">
+
+                    {% endif %}
+
+                    <span class="tag">
+                        {{ food.category.name }}
+                    </span>
+
+                </div>
+
+
+                <div class="food-content">
+
+                    <h3>
+                        {{ food.name }}
+                    </h3>
+
+                    <p>
+                        {{ food.description }}
+                    </p>
+
+
+                    <div class="food-info">
+
+                        <span class="price">
+                            Rs. {{ food.price }}
+                        </span>
+
+                        <span class="rating">
+                            ⭐ {{ food.rating }}
+                        </span>
+
+                    </div>
+
+
+                    <button class="order-btn" onclick="addToCart(
+                        '{{ food.name|escapejs }}',
+                        '{{ food.price }}',
+                        '{{ food.price }}'
+                    )">
+
+                        Add to Cart
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="no-result">
+
+                😕 No Chowmein available.
+
+                <br><br>
+
+                Please add Chowmein foods from Django Admin.
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="no-result" id="noResult" style="display:none;">
+
+            😕 No Chowmein found.
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 FoodExpress | Delicious Food Delivered
+        </p>
+
+    </footer>
+
+
+    <div id="sizeModal" class="size-modal">
+
+        <div class="size-box">
+
+            <button class="close-btn" onclick="closeSizeModal()">
+                ×
+            </button>
+
+
+            <h2 id="selectedFoodName">
+                Choose Size
+            </h2>
+
+
+            <p>
+                Select Half or Full
+            </p>
+
+
+            <div class="size-options">
+
+                <button id="halfBtn" onclick="selectSize('Half')">
+
+                    🥢 Half
+
+                    <span id="halfPrice">
+                        Rs. 0
+                    </span>
+
+                </button>
+
+
+                <button id="fullBtn" onclick="selectSize('Full')">
+
+                    🍜 Full
+
+                    <span id="fullPrice">
+                        Rs. 0
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="{% static 'js/chowmein.js' %}"></script>
+    ```
+
+</body>
+
+</html>

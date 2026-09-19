@@ -1,0 +1,537 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Foods | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/admin_foods.css' %}">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🍴 <span>FoodExpress</span>
+        </div>
+
+        <nav>
+
+            <a href="{% url 'admin_dashboard' %}">
+                <span>🏠</span>
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_orders' %}">
+                <span>📦</span>
+                Orders
+            </a>
+
+            <a href="{% url 'admin_foods' %}" class="active">
+                <span>🍔</span>
+                Foods
+            </a>
+
+            <a href="{% url 'admin_categories' %}">
+                <span>📂</span>
+                Categories
+            </a>
+
+            <a href="{% url 'admin_users' %}">
+                <span>👤</span>
+                Users
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'dashboard' %}">
+                <span>←</span>
+                Customer Dashboard
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout">
+                <span>🚪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <h1>Foods</h1>
+
+                <p>
+                    Manage your FoodExpress food items
+                </p>
+            </div>
+
+            <div class="admin-badge">
+                🛠️ Admin
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+        <section class="food-section">
+
+            <!-- HEADER CARD -->
+            <div class="page-header">
+
+                <div>
+                    <h2>Food Management</h2>
+
+                    <p>
+                        Add, edit and manage all food items
+                    </p>
+                </div>
+
+                <button type="button"
+                        class="add-food-btn"
+                        onclick="openAddFoodMessage()">
+                    <span>＋</span>
+                    Add Food
+                </button>
+
+            </div>
+
+
+            <!-- STAT CARDS -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🍔
+                    </div>
+
+                    <div>
+                        <span>Total Foods</span>
+                        <strong>{{ foods|length }}</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📂
+                    </div>
+
+                    <div>
+                        <span>Categories</span>
+
+                        <strong>
+                            {% regroup foods by category as category_list %}
+                            {{ category_list|length }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ⭐
+                    </div>
+
+                    <div>
+                        <span>Rated Foods</span>
+
+                        <strong id="ratedFoods">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOD TABLE CARD -->
+            <div class="foods-card">
+
+                <div class="foods-toolbar">
+
+                    <div>
+                        <h3>All Foods</h3>
+
+                        <p>
+                            Food items available in your restaurant
+                        </p>
+                    </div>
+
+
+                    <div class="toolbar-actions">
+
+                        <!-- SEARCH -->
+                        <div class="search-box">
+
+                            <span>🔍</span>
+
+                            <input
+                                type="text"
+                                id="foodSearch"
+                                placeholder="Search food..."
+                                autocomplete="off">
+
+                        </div>
+
+
+                        <!-- CATEGORY FILTER -->
+                        <select id="categoryFilter">
+
+                            <option value="all">
+                                All Categories
+                            </option>
+
+                            {% regroup foods by category as category_list %}
+
+                            {% for category in category_list %}
+
+                                <option value="{{ category.grouper.name|lower }}">
+                                    {{ category.grouper.name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                {% if foods %}
+
+                <div class="table-wrapper">
+
+                    <table id="foodsTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Food
+                                </th>
+
+                                <th>
+                                    Category
+                                </th>
+
+                                <th>
+                                    Description
+                                </th>
+
+                                <th>
+                                    Price
+                                </th>
+
+                                <th>
+                                    Rating
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for food in foods %}
+
+                            <tr
+                                class="food-row"
+                                data-name="{{ food.name|lower }}"
+                                data-category="{{ food.category.name|lower }}"
+                                data-rating="{{ food.rating }}">
+
+                                <!-- FOOD -->
+                                <td>
+
+                                    <div class="food-info">
+
+                                        {% if food.image %}
+
+                                            <img
+                                                src="{{ food.image.url }}"
+                                                alt="{{ food.name }}"
+                                                class="food-image">
+
+                                        {% else %}
+
+                                            <div class="food-image no-image">
+                                                🍔
+                                            </div>
+
+                                        {% endif %}
+
+
+                                        <div class="food-name">
+
+                                            <strong>
+                                                {{ food.name }}
+                                            </strong>
+
+                                            <small>
+                                                #{{ food.id }}
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- CATEGORY -->
+                                <td>
+
+                                    {% if food.category %}
+
+                                        <span class="category-badge">
+                                            {{ food.category.name }}
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="no-category">
+                                            No Category
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- DESCRIPTION -->
+                                <td>
+
+                                    <div class="description">
+
+                                        {{ food.description|default:"No description"|truncatechars:60 }}
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- PRICE -->
+                                <td>
+
+                                    <strong class="price">
+                                        Rs. {{ food.price }}
+                                    </strong>
+
+                                </td>
+
+
+                                <!-- RATING -->
+                                <td>
+
+                                    <div class="rating">
+
+                                        <span class="star">
+                                            ★
+                                        </span>
+
+                                        <span>
+                                            {{ food.rating|default:"0" }}
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- ACTION -->
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <a
+                                            href="#"
+                                            class="action-btn edit-btn"
+                                            onclick="editFood('{{ food.id }}'); return false;">
+                                            ✏️
+                                        </a>
+
+
+                                        <button
+                                            type="button"
+                                            class="action-btn delete-btn"
+                                            onclick="deleteFood('{{ food.id }}', '{{ food.name|escapejs }}')">
+                                            🗑️
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- NO SEARCH RESULT -->
+                <div id="noResults" class="no-results">
+
+                    <div>
+                        🔍
+                    </div>
+
+                    <h3>
+                        No Food Found
+                    </h3>
+
+                    <p>
+                        Try another food name or category.
+                    </p>
+
+                </div>
+
+
+                {% else %}
+
+                <!-- EMPTY DATABASE -->
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        🍔
+                    </div>
+
+                    <h3>
+                        No Foods Available
+                    </h3>
+
+                    <p>
+                        Add your first food item from Django Admin.
+                    </p>
+
+                    <a href="/admin/" class="admin-link">
+                        Open Django Admin
+                    </a>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- DELETE MODAL -->
+    <div id="deleteModal" class="modal-overlay">
+
+        <div class="modal">
+
+            <div class="modal-icon">
+                🗑️
+            </div>
+
+            <h2>
+                Delete Food?
+            </h2>
+
+            <p id="deleteMessage">
+                Are you sure you want to delete this food?
+            </p>
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeDeleteModal()">
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="confirm-delete-btn"
+                    onclick="confirmDelete()">
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD FOOD MESSAGE -->
+    <div id="addFoodModal" class="modal-overlay">
+
+        <div class="modal">
+
+            <div class="modal-icon">
+                ➕
+            </div>
+
+            <h2>
+                Add Food
+            </h2>
+
+            <p>
+                Food creation form अर्को step मा जोड्न सकिन्छ।
+            </p>
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeAddFoodMessage()">
+                    Close
+                </button>
+
+                <a href="/admin/myfood/food/add/"
+                   class="confirm-delete-btn add-link">
+                    Add Food
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="{% static 'js/admin_foods.js' %}"></script>
+
+</body>
+
+</html>

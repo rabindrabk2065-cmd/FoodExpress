@@ -1,0 +1,305 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Momo | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/momo.css' %}">
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="logo">
+            🍜 FoodExpress
+        </div>
+
+        <nav class="navbar">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'food' %}">
+                Foods
+            </a>
+
+            <a href="{% url 'restaurants' %}">
+                Restaurants
+            </a>
+
+            <a href="{% url 'cart' %}" class="cart-link">
+                🛒 Cart
+                <span id="cartCount">0</span>
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <section class="momo-hero">
+
+        <div class="hero-content">
+
+            <span>FOODEXPRESS</span>
+
+            <h1>
+                Delicious <strong>Momo</strong>
+            </h1>
+
+            <p>
+                Hot, fresh and tasty momo made with love.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <main class="momo-container">
+
+        <div class="page-heading">
+
+            <span>🥟 OUR MOMO MENU</span>
+
+            <h2>
+                Choose Your Favorite Momo
+            </h2>
+
+            <p>
+                Select your favorite momo and add it to your cart.
+            </p>
+
+        </div>
+
+
+        <div class="filter-buttons">
+
+            <button class="category-btn active" onclick="filterMomo('all', this)">
+                All
+            </button>
+
+            <button class="category-btn" onclick="filterMomo('veg', this)">
+                Veg
+            </button>
+
+            <button class="category-btn" onclick="filterMomo('chicken', this)">
+                Chicken
+            </button>
+
+            <button class="category-btn" onclick="filterMomo('buff', this)">
+                Buff
+            </button>
+
+            <button class="category-btn" onclick="filterMomo('special', this)">
+                Special
+            </button>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input type="text" id="searchInput" placeholder="🔍 Search momo..." onkeyup="searchMomo()">
+
+        </div>
+
+
+        <div class="momo-grid">
+
+            {% for food in foods %}
+
+            <div class="momo-card" data-category="{{ food.name|lower }}" data-name="{{ food.name|lower }}">
+
+                <div class="momo-image">
+
+                    {% if food.image %}
+
+                    <img src="{{ food.image.url }}" alt="{{ food.name }}">
+
+                    {% else %}
+
+                    <img src="{% static 'image/no-food.jpg' %}" alt="{{ food.name }}">
+
+                    {% endif %}
+
+
+                    <span class="tag">
+
+                        {{ food.category.name|upper }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="momo-content">
+
+                    <h3>
+                        {{ food.name }}
+                    </h3>
+
+                    <p>
+                        {{ food.description }}
+                    </p>
+
+
+                    <div class="food-bottom">
+
+                        <span class="price">
+                            Rs. {{ food.price }}
+                        </span>
+
+                        <span class="rating">
+                            ⭐ {{ food.rating }}
+                        </span>
+
+                        <button class="add-cart-btn" onclick="addToCart(
+                                '{{ food.name|escapejs }}',
+                                '{{ food.price }}',
+                                '{{ food.price }}'
+                            )">
+
+                            Add to Cart
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="no-result" style="display:block;">
+
+                <h3>
+                    😕 Momo not found
+                </h3>
+
+                <p>
+                    Please add Momo food from Django Admin.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div id="noResult" class="no-result" style="display:none;">
+
+            <h3>
+                😕 Momo not found
+            </h3>
+
+            <p>
+                Try another momo name.
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <div id="sizeModal" class="size-modal">
+
+        <div class="size-box">
+
+            <button class="close-btn" onclick="closeSizeModal()">
+
+                ×
+
+            </button>
+
+
+            <div class="modal-icon">
+                🥟
+            </div>
+
+
+            <h2 id="selectedMomoName">
+                Choose Size
+            </h2>
+
+
+            <p>
+                Select Half or Full
+            </p>
+
+
+            <div class="size-options">
+
+                <button onclick="selectSize('Half')">
+
+                    <span class="size-icon">
+                        🥢
+                    </span>
+
+                    <span>
+                        Half
+                    </span>
+
+                    <strong id="halfPrice">
+                        Rs. 0
+                    </strong>
+
+                </button>
+
+
+                <button onclick="selectSize('Full')">
+
+                    <span class="size-icon">
+                        🥟
+                    </span>
+
+                    <span>
+                        Full
+                    </span>
+
+                    <strong id="fullPrice">
+                        Rs. 0
+                    </strong>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <footer class="footer">
+
+        <div class="footer-logo">
+            🍜 FoodExpress
+        </div>
+
+        <p>
+            Delicious food delivered to your door.
+        </p>
+
+        <p class="copyright">
+            © 2026 FoodExpress. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="{% static 'js/momo.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,743 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    color: #222;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    width: 100%;
+    min-height: 70px;
+
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #ff5722;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+}
+
+.navbar a {
+    text-decoration: none;
+
+    color: #333;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: #ff5722;
+}
+
+.cart-link {
+    background: #ff5722;
+
+    color: white !important;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+}
+
+#cartCount {
+    background: white;
+
+    color: #ff5722;
+
+    padding: 2px 7px;
+
+    border-radius: 20px;
+
+    margin-left: 4px;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.momo-hero {
+    min-height: 320px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.55),
+            rgba(0, 0, 0, 0.55)),
+        url("../image/momo-banner.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+}
+
+.hero-content span {
+    color: #ff7043;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+.hero-content h1 {
+    color: white;
+
+    font-size: 48px;
+
+    margin: 15px 0;
+}
+
+.hero-content h1 strong {
+    color: #ff7043;
+}
+
+.hero-content p {
+    color: #eee;
+
+    font-size: 17px;
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.momo-container {
+    width: 90%;
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 65px 0;
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+.page-heading {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.page-heading span {
+    color: #ff5722;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.page-heading h2 {
+    font-size: 36px;
+
+    margin: 10px 0;
+}
+
+.page-heading p {
+    color: #777;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+.filter-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+.category-btn {
+    border: none;
+
+    background: white;
+
+    color: #444;
+
+    padding: 10px 20px;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.08);
+
+    transition: 0.3s;
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background: #ff5722;
+
+    color: white;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box {
+    max-width: 500px;
+
+    margin: 0 auto 40px;
+}
+
+.search-box input {
+    width: 100%;
+
+    padding: 14px 20px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 30px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    background: white;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.search-box input:focus {
+    border-color: #ff5722;
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.momo-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 28px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.momo-card {
+    background: white;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08);
+
+    transition: 0.3s;
+}
+
+.momo-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.14);
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+.momo-image {
+    height: 220px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #eee;
+}
+
+.momo-image img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: 0.4s;
+}
+
+.momo-card:hover .momo-image img {
+    transform: scale(1.07);
+}
+
+
+/* =========================
+   TAG
+========================= */
+
+.tag {
+    position: absolute;
+
+    top: 14px;
+
+    left: 14px;
+
+    background: #2e7d32;
+
+    color: white;
+
+    padding: 6px 10px;
+
+    border-radius: 5px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.tag.chicken {
+    background: #c62828;
+}
+
+.tag.special {
+    background: #ff5722;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.momo-content {
+    padding: 20px;
+}
+
+.momo-content h3 {
+    font-size: 21px;
+
+    margin-bottom: 8px;
+}
+
+.momo-content p {
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    min-height: 45px;
+
+    margin-bottom: 16px;
+}
+
+
+/* =========================
+   BOTTOM
+========================= */
+
+.food-bottom {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.price {
+    color: #ff5722;
+
+    font-size: 19px;
+
+    font-weight: 700;
+}
+
+.add-cart-btn {
+    border: none;
+
+    background: #ff5722;
+
+    color: white;
+
+    padding: 10px 14px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.add-cart-btn:hover {
+    background: #e64a19;
+
+    transform: scale(1.03);
+}
+
+
+/* =========================
+   NO RESULT
+========================= */
+
+.no-result {
+    display: none;
+
+    text-align: center;
+
+    padding: 50px;
+
+    color: #777;
+}
+
+
+/* =========================
+   SIZE MODAL
+========================= */
+
+.size-modal {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 999;
+}
+
+.size-box {
+    width: 100%;
+
+    max-width: 420px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    text-align: center;
+
+    position: relative;
+
+    animation: modalOpen 0.2s ease;
+}
+
+@keyframes modalOpen {
+
+    from {
+        transform: scale(0.8);
+
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+
+        opacity: 1;
+    }
+}
+
+.close-btn {
+    position: absolute;
+
+    top: 12px;
+
+    right: 15px;
+
+    border: none;
+
+    background: #f1f1f1;
+
+    width: 34px;
+
+    height: 34px;
+
+    border-radius: 50%;
+
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+.modal-icon {
+    font-size: 45px;
+
+    margin-bottom: 10px;
+}
+
+.size-box h2 {
+    font-size: 25px;
+
+    margin-bottom: 7px;
+}
+
+.size-box p {
+    color: #777;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   SIZE OPTIONS
+========================= */
+
+.size-options {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+.size-options button {
+    border: 2px solid #eee;
+
+    background: white;
+
+    padding: 18px 10px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 16px;
+
+    transition: 0.3s;
+}
+
+.size-options button:hover {
+    border-color: #ff5722;
+
+    background: #fff5f1;
+}
+
+.size-icon {
+    font-size: 28px;
+}
+
+.size-options strong {
+    color: #ff5722;
+
+    font-size: 17px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    background: #222;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 40px 20px;
+}
+
+.footer-logo {
+    color: #ff7043;
+
+    font-size: 23px;
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
+}
+
+.footer p {
+    color: #bbb;
+
+    font-size: 14px;
+}
+
+.copyright {
+    margin-top: 18px;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .momo-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .hero-content h1 {
+        font-size: 40px;
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .header {
+        padding: 15px 5%;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .navbar {
+        gap: 12px;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+
+    .navbar a {
+        font-size: 13px;
+    }
+
+    .momo-hero {
+        min-height: 270px;
+    }
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-content p {
+        font-size: 15px;
+    }
+
+    .momo-container {
+        width: 92%;
+
+        padding: 50px 0;
+    }
+
+    .page-heading h2 {
+        font-size: 28px;
+    }
+
+    .momo-grid {
+        grid-template-columns: 1fr;
+
+        gap: 22px;
+    }
+
+    .momo-image {
+        height: 230px;
+    }
+
+    .food-bottom {
+        align-items: center;
+    }
+
+    .add-cart-btn {
+        padding: 10px 12px;
+    }
+
+    .size-options {
+        grid-template-columns: 1fr;
+    }
+}

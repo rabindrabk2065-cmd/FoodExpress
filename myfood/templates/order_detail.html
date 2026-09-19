@@ -1,0 +1,482 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order #{{ order.id }} | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/order_detail.css' %}">
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="logo">
+            🍜 FoodExpress
+        </div>
+
+        <nav class="navbar">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'food' %}">
+                Foods
+            </a>
+
+            <a href="{% url 'restaurants' %}">
+                Restaurants
+            </a>
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'cart' %}" class="cart-link">
+                🛒 Cart
+                <span id="cartCount">0</span>
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main class="order-container">
+
+        <div class="page-heading">
+
+            <div>
+
+                <span class="small-title">
+                    FOODEXPRESS
+                </span>
+
+                <h1>
+                    Order #{{ order.id }}
+                </h1>
+
+                <p>
+                    Your order details and status
+                </p>
+
+            </div>
+
+            <a href="{% url 'dashboard' %}" class="back-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+
+        <section class="order-summary">
+
+
+            <div class="summary-box">
+
+                <span class="summary-label">
+                    Order Date
+                </span>
+
+                <strong>
+                    {{ order.created_at|date:"M d, Y - h:i A" }}
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <span class="summary-label">
+                    Status
+                </span>
+
+                <strong class="status">
+                    {{ order.status }}
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <span class="summary-label">
+                    Payment
+                </span>
+
+                <strong>
+                    {{ order.payment_method }}
+                </strong>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <span class="summary-label">
+                    Total
+                </span>
+
+                <strong class="total">
+                    Rs. {{ order.total_amount }}
+                </strong>
+
+            </div>
+
+        </section>
+        <section class="tracking-card">
+
+            <div class="tracking-header">
+
+                <span class="section-label">
+                    📦 ORDER TRACKING
+                </span>
+
+                <h2>
+                    Order Status
+                </h2>
+
+                <p>
+                    Track your order from preparation to delivery.
+                </p>
+
+            </div>
+
+
+            <div class="tracking">
+
+                <div class="track-step
+            {% if order.status == 'Pending' or order.status == 'Preparing' or order.status == 'Out for Delivery' or order.status == 'Delivered' %}
+            active
+            {% endif %}
+        ">
+
+                    <div class="track-icon">
+                        ✓
+                    </div>
+
+                    <div class="track-content">
+                        <h3>Order Placed</h3>
+                        <p>Your order has been received.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="track-line"></div>
+
+
+                <div class="track-step
+            {% if order.status == 'Preparing' or order.status == 'Out for Delivery' or order.status == 'Delivered' %}
+            active
+            {% endif %}
+        ">
+
+                    <div class="track-icon">
+                        ✓
+                    </div>
+
+                    <div class="track-content">
+                        <h3>Preparing</h3>
+                        <p>Your food is being prepared.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="track-line"></div>
+
+
+                <div class="track-step
+            {% if order.status == 'Out for Delivery' or order.status == 'Delivered' %}
+            active
+            {% endif %}
+        ">
+
+                    <div class="track-icon">
+                        🚴
+                    </div>
+
+                    <div class="track-content">
+                        <h3>Out for Delivery</h3>
+                        <p>Your order is on the way.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="track-line"></div>
+
+
+                <div class="track-step
+            {% if order.status == 'Delivered' %}
+            active
+            {% endif %}
+        ">
+
+                    <div class="track-icon">
+                        ✓
+                    </div>
+
+                    <div class="track-content">
+                        <h3>Delivered</h3>
+                        <p>Your order has been delivered.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="order-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="section-label">
+                        🍽️ ORDER ITEMS
+                    </span>
+
+                    <h2>
+                        Your Food
+                    </h2>
+
+                </div>
+
+                <span class="item-count">
+                    {{ items|length }} item{{ items|length|pluralize }}
+                </span>
+
+            </div>
+
+
+            <div class="items-list">
+
+                {% for item in items %}
+
+                <div class="order-item">
+
+                    <div class="item-icon">
+                        🍽️
+                    </div>
+
+                    <div class="item-info">
+
+                        <h3>
+                            {{ item.food_name }}
+                        </h3>
+
+                        <p>
+                            Rs. {{ item.price }} × {{ item.quantity }}
+                        </p>
+
+                    </div>
+
+                    <div class="item-total">
+
+                        Rs. {{ item.total }}
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="empty-items">
+
+                    <div>
+                        🍽️
+                    </div>
+
+                    <p>
+                        No items found for this order.
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="price-section">
+
+                <div class="price-row">
+
+                    <span>
+                        Food Total
+                    </span>
+
+                    <strong>
+                        Rs. {{ order.total_amount|add:"-50" }}
+                    </strong>
+
+                </div>
+
+
+                <div class="price-row">
+
+                    <span>
+                        Delivery Fee
+                    </span>
+
+                    <strong>
+                        Rs. 50.00
+                    </strong>
+
+                </div>
+
+
+                <div class="price-row grand-total">
+
+                    <span>
+                        Grand Total
+                    </span>
+
+                    <strong>
+                        Rs. {{ order.total_amount }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="delivery-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="section-label">
+                        📍 DELIVERY
+                    </span>
+
+                    <h2>
+                        Delivery Information
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="delivery-info">
+
+                <div class="info-box">
+
+                    <span>
+                        👤
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Customer
+                        </small>
+
+                        <strong>
+                            {{ order.name }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        📞
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Phone
+                        </small>
+
+                        <strong>
+                            {{ order.phone }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        📍
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Address
+                        </small>
+
+                        <strong>
+                            {{ order.address }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="bottom-actions">
+
+            <a href="{% url 'food' %}" class="primary-btn">
+                🍽️ Order More Food
+            </a>
+
+            <a href="{% url 'dashboard' %}" class="secondary-btn">
+                Dashboard
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="footer-logo">
+            🍜 FoodExpress
+        </div>
+
+        <p>
+            Delicious food delivered to your door.
+        </p>
+
+        <p class="copyright">
+            © 2026 FoodExpress. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="{% static 'js/order_detail.js' %}"></script>
+
+</body>
+
+</html>

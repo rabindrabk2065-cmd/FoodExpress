@@ -1,0 +1,364 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f6f8;
+
+    color: #222;
+
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.success-container {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 30px 15px;
+
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.success-card {
+
+    width: 100%;
+
+    max-width: 550px;
+
+    background: white;
+
+    padding: 40px 30px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.10);
+
+}
+
+
+/* =========================
+   SUCCESS ICON
+========================= */
+
+.success-icon {
+
+    width: 85px;
+
+    height: 85px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 48px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.success-card h1 {
+
+    font-size: 30px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.thank-you {
+
+    color: #666;
+
+    font-size: 16px;
+
+}
+
+
+/* =========================
+   ORDER BOX
+========================= */
+
+.order-box {
+
+    margin-top: 25px;
+
+    background: #f8f9fa;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    text-align: left;
+
+}
+
+
+/* =========================
+   ORDER ROW
+========================= */
+
+.order-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 11px 0;
+
+    border-bottom: 1px solid #e5e5e5;
+
+    gap: 15px;
+
+}
+
+
+.order-row span {
+
+    color: #666;
+
+}
+
+
+.order-row strong {
+
+    text-align: right;
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+
+    color: #f59e0b;
+
+}
+
+
+/* =========================
+   TOTAL
+========================= */
+
+.total-row {
+
+    border-bottom: none;
+
+    margin-top: 5px;
+
+    padding-top: 15px;
+
+}
+
+
+.total-row strong {
+
+    font-size: 21px;
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+.order-date {
+
+    text-align: center;
+
+    margin-top: 10px;
+
+    padding-top: 10px;
+
+    font-size: 13px;
+
+    color: #888;
+
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message {
+
+    margin-top: 22px;
+
+    color: #666;
+
+    line-height: 1.6;
+
+    font-size: 15px;
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 28px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.buttons a {
+
+    text-decoration: none;
+
+    padding: 13px 20px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+
+}
+
+
+.home-btn {
+
+    background: #ff5722;
+
+    color: white;
+
+}
+
+
+.food-btn {
+
+    background: #222;
+
+    color: white;
+
+}
+
+
+.buttons a:hover {
+
+    transform: translateY(-2px);
+
+    opacity: 0.9;
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .success-container {
+
+        padding: 20px 12px;
+
+    }
+
+
+    .success-card {
+
+        padding: 30px 18px;
+
+    }
+
+
+    .success-icon {
+
+        width: 70px;
+
+        height: 70px;
+
+        font-size: 38px;
+
+    }
+
+
+    .success-card h1 {
+
+        font-size: 24px;
+
+    }
+
+
+    .order-row {
+
+        font-size: 14px;
+
+    }
+
+
+    .total-row strong {
+
+        font-size: 18px;
+
+    }
+
+
+    .buttons {
+
+        flex-direction: column;
+
+    }
+
+
+    .buttons a {
+
+        width: 100%;
+
+    }
+
+}

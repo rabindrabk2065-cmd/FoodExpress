@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cart | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
+
+        <div class="logo">
+            🍜 FoodExpress
+        </div>
+
+        <a href="{% url 'food' %}" class="back-btn">
+            ← Continue Shopping
+        </a>
+
+    </header>
+
+
+    <!-- =========================
+         CART SECTION
+    ========================== -->
+
+    <main class="cart-container">
+
+        <h1>🛒 Your Cart</h1>
+
+        <div id="cartItems" class="cart-items">
+            <!-- Cart items JavaScript बाट यहाँ आउँछन् -->
+        </div>
+
+
+        <!-- =========================
+             EMPTY CART
+        ========================== -->
+
+        <div id="emptyCart" class="empty-cart">
+
+            <div class="empty-icon">
+                🛒
+            </div>
+
+            <h2>Your cart is empty</h2>
+
+            <p>Add some delicious food to your cart.</p>
+
+            <a href="{% url 'food' %}" class="shop-btn">
+                Browse Foods
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             CART SUMMARY
+        ========================== -->
+
+        <div id="cartSummary" class="cart-summary">
+
+            <h2>Order Summary</h2>
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <strong>Rs. <span id="subtotal">0</span></strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Delivery</span>
+                <strong>Rs. <span id="delivery">0</span></strong>
+            </div>
+
+            <hr>
+
+            <div class="summary-total">
+                <span>Total</span>
+                <strong>Rs. <span id="grandTotal">0</span></strong>
+            </div>
+
+            <a href="{% url 'checkout' %}" class="checkout-btn">
+                Proceed to Checkout
+            </a>
+
+        </div>
+
+    </main>
+    <script src="{% static 'js/cart.js' %}"></script>
+
+</body>
+
+</html>

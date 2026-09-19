@@ -1,0 +1,548 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: white;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+    min-height: 72px;
+    padding: 0 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo */
+
+.logo {
+    text-decoration: none;
+    color: #222;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.logo span {
+    color: #ff5722;
+}
+
+/* Menu */
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #444;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: #ff5722;
+}
+
+/* Right Actions */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.cart {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+}
+
+.login-btn {
+    text-decoration: none;
+    background: #ff5722;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #e64a19;
+}
+
+/* Mobile Button */
+
+.menu-toggle {
+    display: none;
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+    .nav-container {
+        min-height: 65px;
+        padding: 0 18px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .nav-menu {
+        display: none;
+
+        position: absolute;
+        top: 65px;
+        left: 0;
+
+        width: 100%;
+        background: white;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 0;
+
+        border-top: 1px solid #eeeeee;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-menu.show {
+        display: flex;
+    }
+
+    .nav-menu a {
+        width: 100%;
+        padding: 15px 20px;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .nav-actions {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+}
+
+/* ================= RESTAURANT HERO ================= */
+
+.restaurant-hero {
+    max-width: 1200px;
+    min-height: 550px;
+    margin: auto;
+    padding: 60px 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+
+}
+
+.restaurant-hero-content {
+    flex: 1;
+}
+
+.hero-tag {
+    color: #ff5722;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.restaurant-hero h1 {
+    font-size: 52px;
+    line-height: 1.15;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.restaurant-hero h1 span {
+    display: block;
+    color: #ff5722;
+}
+
+.hero-text {
+    max-width: 540px;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+/* INFO */
+
+.hero-info {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.hero-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hero-info strong {
+    color: #333;
+    font-size: 15px;
+}
+
+.hero-info small {
+    color: #888;
+}
+
+/* BUTTONS */
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.order-btn,
+.menu-btn {
+    text-decoration: none;
+    padding: 13px 25px;
+    border-radius: 7px;
+    font-weight: 600;
+}
+
+.order-btn {
+    background: #ff5722;
+    color: white;
+}
+
+.menu-btn {
+    border: 1px solid #ff5722;
+    color: #ff5722;
+}
+
+/* IMAGE */
+
+.restaurant-hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.restaurant-hero-image img {
+    width: 100%;
+    max-width: 500px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .restaurant-hero {
+        min-height: auto;
+        padding: 45px 20px;
+        flex-direction: column-reverse;
+        gap: 35px;
+        text-align: center;
+    }
+
+    .restaurant-hero h1 {
+        font-size: 38px;
+    }
+
+    .hero-text {
+        font-size: 15px;
+    }
+
+    .hero-info {
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .restaurant-hero-image img {
+        height: 280px;
+        border-radius: 20px;
+    }
+
+
+}
+
+/* ================= FOOD CATEGORIES ================= */
+
+.food-categories {
+    max-width: 1200px;
+    margin: auto;
+    padding: 70px 25px;
+}
+
+.category-heading {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.category-heading p {
+    color: #ff5722;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.category-heading h2 {
+    color: #222;
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.category-heading span {
+    color: #777;
+    font-size: 15px;
+}
+
+/* CATEGORY GRID */
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.category-card {
+    text-decoration: none;
+    background: white;
+    border: 1px solid #eeeeee;
+    border-radius: 15px;
+    padding: 25px 15px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+    border-color: #ff5722;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.category-icon {
+    font-size: 50px;
+    margin-bottom: 12px;
+}
+
+.category-card h3 {
+    color: #222;
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.category-card p {
+    color: #888;
+    font-size: 13px;
+}
+
+/* VIEW ALL */
+
+.category-view-all {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.category-view-all a {
+    display: inline-block;
+    text-decoration: none;
+    background: #ff5722;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 7px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.category-view-all a:hover {
+    background: #e64a19;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .food-categories {
+        padding: 50px 20px;
+    }
+
+    .category-heading h2 {
+        font-size: 29px;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .category-card {
+        padding: 20px 10px;
+    }
+
+    .category-icon {
+        font-size: 42px;
+    }
+
+
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    background: #111827;
+    color: white;
+    margin-top: 60px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 55px 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 40px;
+}
+
+.footer-box h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.footer-box h3 {
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+.footer-box p {
+    color: #cbd5e1;
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.footer-box a {
+    display: block;
+    color: #cbd5e1;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.footer-box a:hover {
+    color: #f97316;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    border-top: 1px solid #374151;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-bottom p {
+    color: #9ca3af;
+    margin: 0;
+}
+
+.social-links {
+    display: flex;
+    gap: 20px;
+}
+
+.social-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    color: #f97316;
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+    }
+
+    .footer-box {
+        text-align: center;
+    }
+
+    .footer-box a:hover {
+        padding-left: 0;
+    }
+
+    .social-links {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

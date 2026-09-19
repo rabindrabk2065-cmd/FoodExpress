@@ -1,0 +1,282 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🍴 FoodExpress
+        </div>
+
+        <nav>
+
+            <a href="{% url 'admin_dashboard' %}">
+                🏠 Dashboard
+            </a>
+
+            <a href="{% url 'admin_orders' %}">
+                📦 Orders
+            </a>
+
+            <a href="{% url 'admin_foods' %}">
+                🍔 Foods
+            </a>
+
+            <a href="{% url 'admin_categories' %}">
+                📂 Categories
+            </a>
+
+            <a href="{% url 'admin_users' %}">
+                👤 Users
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'dashboard' %}">
+                ← Customer Dashboard
+            </a>
+
+            <a href="{% url 'logout' %}">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Admin Dashboard</h1>
+
+                <p>
+                    Welcome, {{ request.user.username }}
+                </p>
+            </div>
+
+        </header>
+
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span>📦</span>
+
+                <div>
+                    <p>Total Orders</p>
+                    <h2>{{ total_orders }}</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span>👤</span>
+
+                <div>
+                    <p>Total Users</p>
+                    <h2>{{ total_users }}</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span>🍔</span>
+
+                <div>
+                    <p>Total Foods</p>
+                    <h2>{{ total_foods }}</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span>📂</span>
+
+                <div>
+                    <p>Categories</p>
+                    <h2>{{ total_categories }}</h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span>⏳</span>
+
+                <div>
+                    <p>Pending</p>
+                    <h2>{{ pending_orders }}</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span>👨‍🍳</span>
+
+                <div>
+                    <p>Preparing</p>
+                    <h2>{{ preparing_orders }}</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span>✅</span>
+
+                <div>
+                    <p>Delivered</p>
+                    <h2>{{ delivered_orders }}</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span>💰</span>
+
+                <div>
+                    <p>Total Sales</p>
+                    <h2>Rs. {{ total_sales }}</h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="orders-card">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Recent Orders</h2>
+
+                    <p>
+                        Latest customer orders
+                    </p>
+                </div>
+
+            </div>
+
+
+            {% if recent_orders %}
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        {% for order in recent_orders %}
+
+                        <tr>
+
+                            <td>
+                                #{{ order.id }}
+                            </td>
+
+                            <td>
+                                {% if order.user %}
+                                {{ order.user.username }}
+                                {% else %}
+                                Guest
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ order.status }}
+                            </td>
+
+                            <td>
+                                Rs. {{ order.total_amount }}
+                            </td>
+
+                            <td>
+                                {{ order.created_at|date:"M d, Y" }}
+                            </td>
+
+                            <td>
+                                <a href="{% url 'admin_order_detail' order.id %}">
+                                    View
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for order in recent_orders %}
+
+                        <tr>
+
+                            <td>
+                                #{{ order.id }}
+                            </td>
+
+                            <td>
+                                {{ order.user.username }}
+                            </td>
+
+                            <td>
+                                {{ order.status }}
+                            </td>
+
+                            <td>
+                                Rs. {{ order.total_amount }}
+                            </td>
+
+                            <td>
+                                {{ order.created_at|date:"M d, Y" }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <p class="empty">
+                No orders found.
+            </p>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

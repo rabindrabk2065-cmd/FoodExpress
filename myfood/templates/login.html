@@ -1,0 +1,109 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>FoodExpress</h1>
+        <p>Login to your account</p>
+
+        {% if form.non_field_errors %}
+        <div class="error-message">
+            {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form id="loginForm" method="POST" novalidate>
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label for="{{ form.username.id_for_label }}">
+                    Username
+                </label>
+
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                <small class="field-error">
+                    {% for error in form.username.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </small>
+                {% endif %}
+
+                <small id="usernameError"></small>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="{{ form.password.id_for_label }}">
+                    Password
+                </label>
+
+                {{ form.password }}
+
+                {% if form.password.errors %}
+                <small class="field-error">
+                    {% for error in form.password.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </small>
+                {% endif %}
+
+                <small id="passwordError"></small>
+
+            </div>
+
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+
+        <div class="register-text">
+
+            Don't have an account?
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+
+        </div>
+
+
+        <div class="home-link">
+
+            <a href="{% url 'home' %}">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script src="{% static 'js/login.js' %}"></script>
+
+</body>
+
+</html>

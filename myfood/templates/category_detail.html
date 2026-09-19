@@ -1,0 +1,228 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ category.name }} | FoodExpress</title>
+
+    <link rel="stylesheet" href="{% static 'css/category_detail.css' %}">
+
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="logo">
+            🍜 FoodExpress
+        </div>
+
+        <nav class="navbar">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'food' %}">
+                Foods
+            </a>
+
+            <a href="{% url 'restaurants' %}">
+                Restaurants
+            </a>
+
+            <a href="{% url 'cart' %}" class="cart-link">
+                🛒 Cart
+                <span id="cartCount">0</span>
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <section class="category-hero">
+
+        <div class="hero-content">
+
+            <span class="small-title">
+                FOODEXPRESS MENU
+            </span>
+
+            <h1>
+                {{ category.name }}
+            </h1>
+
+            <p>
+                Explore delicious {{ category.name }} foods
+                and order your favourite meal.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <main class="food-container">
+
+        <div class="page-top">
+
+            <div>
+
+                <span class="section-label">
+                    🍽️ OUR MENU
+                </span>
+
+                <h2>
+                    {{ category.name }} Foods
+                </h2>
+
+                <p>
+                    Choose your favourite food and add it to your cart.
+                </p>
+
+            </div>
+
+            <a href="{% url 'food' %}" class="back-btn">
+                ← All Categories
+            </a>
+
+        </div>
+
+
+        {% if foods %}
+
+        <div class="food-grid">
+
+            {% for food in foods %}
+
+            <div class="food-card">
+
+                <div class="food-image">
+
+                    {% if food.image %}
+
+                    <img src="{{ food.image.url }}" alt="{{ food.name }}">
+
+                    {% else %}
+
+                    <div class="no-image">
+                        🍽️
+                        <span>No Image</span>
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="food-content">
+
+                    <div class="food-rating">
+
+                        <span class="stars">
+                            ⭐
+                        </span>
+
+                        <span>
+                            {{ food.rating }}
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        {{ food.name }}
+                    </h3>
+
+
+                    <p class="food-description">
+                        {{ food.description }}
+                    </p>
+
+
+                    <div class="food-bottom">
+
+                        <div class="price">
+                            Rs. {{ food.price }}
+                        </div>
+
+
+                        <button type="button" class="add-cart-btn" data-id="{{ food.id }}" data-name="{{ food.name }}"
+                            data-price="{{ food.price }}"
+                            data-image="{% if food.image %}{{ food.image.url }}{% endif %}">
+                            Add to Cart
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% else %}
+
+        <div class="empty-food">
+
+            <div class="empty-icon">
+                🍽️
+            </div>
+
+            <h3>
+                No foods available
+            </h3>
+
+            <p>
+                There are no foods in this category yet.
+                Please add foods from Django Admin.
+            </p>
+
+            <a href="{% url 'food' %}" class="back-btn">
+                ← Back to Categories
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <p>Food added to cart!</p>
+    </div>
+
+
+    <footer class="footer">
+
+        <div class="footer-logo">
+            🍜 FoodExpress
+        </div>
+
+        <p>
+            Delicious food delivered to your door.
+        </p>
+
+        <p class="copyright">
+            © 2026 FoodExpress. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="{% static 'js/category_detail.js' %}"></script>
+
+</body>
+
+</html>
