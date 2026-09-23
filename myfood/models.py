@@ -26,15 +26,21 @@ class Order(models.Model):
         ('Cancelled', 'Cancelled'),
     ]
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(
+        max_length=100
+    )
 
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(
+        max_length=15
+    )       
 
     email = models.EmailField()
 
     address = models.TextField()
 
-    city = models.CharField(max_length=100)
+    city = models.CharField(
+        max_length=100
+    )
 
     landmark = models.CharField(
         max_length=200,
@@ -53,6 +59,20 @@ class Order(models.Model):
     total_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2
+    )
+
+    # Payment status
+    payment_status = models.CharField(
+        max_length=20,
+        default="Pending"
+    )
+
+    # eSewa transaction UUID
+    transaction_uuid = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        unique=True
     )
 
     status = models.CharField(
@@ -97,7 +117,6 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.food_name} x {self.quantity}"
-
 
 class Category(models.Model):
 

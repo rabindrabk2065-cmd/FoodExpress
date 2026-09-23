@@ -1,688 +1,848 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-const checkoutItems = document.getElementById("checkoutItems");
+    const checkoutItems = document.getElementById("checkoutItems");
+    const subtotalElement = document.getElementById("subtotal");
+    const deliveryElement = document.getElementById("deliveryFee");
+    const discountElement = document.getElementById("discount");
+    const totalElement = document.getElementById("total");
 
-const subtotalElement = document.getElementById("subtotal");
-const deliveryElement = document.getElementById("deliveryFee");
-const discountElement = document.getElementById("discount");
-const totalElement = document.getElementById("total");
+    const checkoutForm = document.getElementById("checkoutForm");
+    const cartDataInput = document.getElementById("cartData");
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
+    const paymentInfo = document.getElementById("paymentInfo");
 
-const checkoutForm = document.getElementById("checkoutForm");
-const cartDataInput = document.getElementById("cartData");
+    const paymentOptions =
+        document.querySelectorAll(".payment-option");
 
-const placeOrderBtn = document.getElementById("placeOrderBtn");
 
-const paymentInfo = document.getElementById("paymentInfo");
+    // ============================================================
+    // GET CART FROM LOCAL STORAGE
+    // ============================================================
 
-const paymentOptions =
-    document.querySelectorAll(".payment-option");
+    let cart = [];
 
-let cart = [];
+    try {
 
-try {
-    cart = JSON.parse(
-        localStorage.getItem("foodCart") || "[]"
-    );
-} catch (error) {
-    console.error("Cart data error:", error);
-    cart = [];
-}
-
-
-console.log("CHECKOUT CART:", cart);
-
-
-/* =========================
-   DISPLAY CART
-========================= */
-
-function displayCart() {
-
-    checkoutItems.innerHTML = "";
-
-    let subtotal = 0;
-
-
-    if (!Array.isArray(cart) || cart.length === 0) {
-
-        checkoutItems.innerHTML = `
-            <p class="empty-cart-message">
-                Your cart is empty.
-            </p>
-        `;
-
-        subtotalElement.textContent = "Rs. 0";
-        deliveryElement.textContent = "Rs. 0";
-        discountElement.textContent = "Rs. 0";
-        totalElement.textContent = "Rs. 0";
-
-        return;
-    }
-
-
-    cart.forEach(function (item) {
-
-        const quantity =
-            Number(item.quantity) || 1;
-
-
-        const price =
-            Number(
-                String(item.price || "")
-                    .replace(/[^0-9.]/g, "")
-            ) || 0;
-
-
-        const itemTotal =
-            price * quantity;
-
-
-        subtotal += itemTotal;
-
-
-        const itemHTML =
-            document.createElement("div");
-
-
-        itemHTML.className =
-            "checkout-item";
-
-
-        itemHTML.innerHTML = `
-
-            <div class="item-info">
-
-                ${
-                    item.image
-                        ? `
-                            <img
-                                src="${item.image}"
-                                class="item-image"
-                                alt="${item.name || "Food"}"
-                            >
-                          `
-                        : `
-                            <div class="item-image"></div>
-                          `
-                }
-
-
-                <div>
-
-                    <div class="item-name">
-                        ${item.name || "Food Item"}
-                    </div>
-
-
-                    <div class="item-quantity">
-
-                        Size:
-                        ${item.size || "Regular"}
-
-                        &nbsp; | &nbsp;
-
-                        Qty:
-                        ${quantity}
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="item-price">
-                Rs. ${itemTotal.toFixed(0)}
-            </div>
-
-        `;
-
-
-        checkoutItems.appendChild(itemHTML);
-
-    });
-
-
-    const deliveryFee =
-        subtotal > 0 ? 50 : 0;
-
-
-    const discount = 0;
-
-
-    const total =
-        subtotal + deliveryFee - discount;
-
-
-    subtotalElement.textContent =
-        "Rs. " + subtotal.toFixed(0);
-
-
-    deliveryElement.textContent =
-        "Rs. " + deliveryFee.toFixed(0);
-
-
-    discountElement.textContent =
-        "Rs. " + discount.toFixed(0);
-
-
-    totalElement.textContent =
-        "Rs. " + total.toFixed(0);
-
-}
-
-
-/* =========================
-   PAYMENT METHOD UI
-========================= */
-
-function updatePaymentUI() {
-
-    const selected =
-        document.querySelector(
-            'input[name="payment_method"]:checked'
+        cart = JSON.parse(
+            localStorage.getItem("foodCart") || "[]"
         );
 
+    } catch (error) {
 
-    if (!selected) {
-        return;
+        console.error(
+            "Cart data error:",
+            error
+        );
+
+        cart = [];
     }
 
 
-    paymentOptions.forEach(function (option) {
-
-        option.classList.remove("active");
-
-    });
-
-
-    const selectedOption =
-        selected.closest(".payment-option");
-
-
-    if (selectedOption) {
-
-        selectedOption.classList.add("active");
-
-    }
-
-
-    if (selected.value === "cod") {
-
-        paymentInfo.innerHTML = `
-
-            <span class="info-icon">
-                🔒
-            </span>
-
-            <div>
-
-                <strong>
-                    Cash on Delivery selected
-                </strong>
-
-                <p>
-                    You can pay when your order arrives.
-                </p>
-
-            </div>
-
-        `;
-
-
-        placeOrderBtn.textContent =
-            "Place Order";
-
-    }
-
-
-    if (selected.value === "esewa") {
-
-        paymentInfo.innerHTML = `
-
-            <span class="info-icon">
-                🟢
-            </span>
-
-            <div>
-
-                <strong>
-                    eSewa payment selected
-                </strong>
-
-                <p>
-                    You will continue to eSewa securely after checkout.
-                </p>
-
-            </div>
-
-        `;
-
-
-        placeOrderBtn.textContent =
-            "Continue to eSewa";
-
-    }
-
-
-    if (selected.value === "khalti") {
-
-        paymentInfo.innerHTML = `
-
-            <span class="info-icon">
-                🟣
-            </span>
-
-            <div>
-
-                <strong>
-                    Khalti payment selected
-                </strong>
-
-                <p>
-                    You will continue to Khalti securely after checkout.
-                </p>
-
-            </div>
-
-        `;
-
-
-        placeOrderBtn.textContent =
-            "Continue to Khalti";
-
-    }
-
-}
-
-
-paymentOptions.forEach(function (option) {
-
-    option.addEventListener(
-        "click",
-        updatePaymentUI
+    console.log(
+        "CHECKOUT CART:",
+        cart
     );
 
-});
+
+    // ============================================================
+    // DISPLAY CART
+    // ============================================================
+
+    function displayCart() {
+
+        checkoutItems.innerHTML = "";
+
+        let subtotal = 0;
 
 
-/* =========================
-   FORM SUBMIT
-========================= */
-
-checkoutForm.addEventListener(
-    "submit",
-    function (event) {
-
-        event.preventDefault();
-
-
-        /* EMPTY CART */
-
+        // Empty cart
         if (
             !Array.isArray(cart) ||
             cart.length === 0
         ) {
 
-            alert("Your cart is empty!");
+            checkoutItems.innerHTML = `
+                <p class="empty-cart-message">
+                    Your cart is empty.
+                </p>
+            `;
+
+            subtotalElement.textContent =
+                "Rs. 0";
+
+            deliveryElement.textContent =
+                "Rs. 0";
+
+            discountElement.textContent =
+                "Rs. 0";
+
+            totalElement.textContent =
+                "Rs. 0";
 
             return;
         }
 
 
-        /* GET VALUES */
+        // Display every cart item
+        cart.forEach(function (item) {
 
-        const name =
-            document
-                .getElementById("name")
-                .value
-                .trim();
+            const quantity =
+                Number(item.quantity) || 1;
 
 
-        const phone =
-            document
-                .getElementById("phone")
-                .value
-                .trim();
+            const price =
+                Number(
+                    String(item.price || "")
+                        .replace(/[^0-9.]/g, "")
+                ) || 0;
 
 
-        const email =
-            document
-                .getElementById("email")
-                .value
-                .trim();
+            const itemTotal =
+                price * quantity;
 
 
-        const address =
-            document
-                .getElementById("address")
-                .value
-                .trim();
+            subtotal += itemTotal;
 
 
-        const city =
-            document
-                .getElementById("city")
-                .value
-                .trim();
+            const itemHTML =
+                document.createElement("div");
 
 
-        /* REQUIRED */
-
-        if (!name) {
-
-            alert("Please enter your full name.");
-
-            document.getElementById("name").focus();
-
-            return;
-        }
+            itemHTML.className =
+                "checkout-item";
 
 
-        if (!phone) {
+            itemHTML.innerHTML = `
 
-            alert("Please enter your phone number.");
+                <div class="item-info">
 
-            document.getElementById("phone").focus();
+                    ${
+                        item.image
+                            ? `
+                                <img
+                                    src="${item.image}"
+                                    class="item-image"
+                                    alt="${item.name || "Food"}"
+                                >
+                              `
+                            : `
+                                <div class="item-image"></div>
+                              `
+                    }
 
-            return;
-        }
+
+                    <div>
+
+                        <div class="item-name">
+                            ${item.name || "Food Item"}
+                        </div>
 
 
-        if (!email) {
+                        <div class="item-quantity">
 
-            alert("Please enter your email address.");
+                            Size:
+                            ${item.size || "Regular"}
 
-            document.getElementById("email").focus();
+                            &nbsp; | &nbsp;
 
-            return;
-        }
+                            Qty:
+                            ${quantity}
+
+                        </div>
+
+                    </div>
+
+                </div>
 
 
-        if (!address) {
+                <div class="item-price">
 
-            alert(
-                "Please enter your delivery address."
+                    Rs. ${itemTotal.toFixed(0)}
+
+                </div>
+
+            `;
+
+
+            checkoutItems.appendChild(
+                itemHTML
             );
 
-            document
-                .getElementById("address")
-                .focus();
+        });
 
-            return;
-        }
 
+        // Delivery fee
+        const deliveryFee =
+            subtotal > 0 ? 50 : 0;
 
-        if (!city) {
 
-            alert("Please enter your city.");
+        // Discount
+        const discount = 0;
 
-            document.getElementById("city").focus();
 
-            return;
-        }
+        // Final total
+        const total =
+            subtotal +
+            deliveryFee -
+            discount;
 
 
-        /* NAME */
+        subtotalElement.textContent =
+            "Rs. " +
+            subtotal.toFixed(0);
 
-        const namePattern =
-            /^[A-Za-zÀ-ÿ]+(?:[\s'-][A-Za-zÀ-ÿ]+)*$/;
 
+        deliveryElement.textContent =
+            "Rs. " +
+            deliveryFee.toFixed(0);
 
-        if (!namePattern.test(name)) {
 
-            alert(
-                "Please enter a valid name."
-            );
+        discountElement.textContent =
+            "Rs. " +
+            discount.toFixed(0);
 
-            document
-                .getElementById("name")
-                .focus();
 
-            return;
-        }
+        totalElement.textContent =
+            "Rs. " +
+            total.toFixed(0);
+    }
 
 
-        if (name.length < 2) {
+    // ============================================================
+    // PAYMENT METHOD UI
+    // ============================================================
 
-            alert(
-                "Name must contain at least 2 characters."
-            );
+    function updatePaymentUI() {
 
-            document
-                .getElementById("name")
-                .focus();
-
-            return;
-        }
-
-
-        if (name.length > 50) {
-
-            alert(
-                "Name must not exceed 50 characters."
-            );
-
-            document
-                .getElementById("name")
-                .focus();
-
-            return;
-        }
-
-
-        /* PHONE */
-
-        const phonePattern =
-            /^(?:\+977[- ]?)?9[678]\d{8}$/;
-
-
-        if (!phonePattern.test(phone)) {
-
-            alert(
-                "Please enter a valid Nepal phone number."
-            );
-
-            document
-                .getElementById("phone")
-                .focus();
-
-            return;
-        }
-
-
-        /* EMAIL */
-
-        const emailPattern =
-            /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-
-        if (!emailPattern.test(email)) {
-
-            alert(
-                "Please enter a valid email address."
-            );
-
-            document
-                .getElementById("email")
-                .focus();
-
-            return;
-        }
-
-
-        if (email.length > 100) {
-
-            alert(
-                "Email address must not exceed 100 characters."
-            );
-
-            document
-                .getElementById("email")
-                .focus();
-
-            return;
-        }
-
-
-        /* ADDRESS */
-
-        if (address.length < 5) {
-
-            alert(
-                "Please enter a complete delivery address."
-            );
-
-            document
-                .getElementById("address")
-                .focus();
-
-            return;
-        }
-
-
-        if (address.length > 200) {
-
-            alert(
-                "Address must not exceed 200 characters."
-            );
-
-            document
-                .getElementById("address")
-                .focus();
-
-            return;
-        }
-
-
-        /* CITY */
-
-        const cityPattern =
-            /^[A-Za-zÀ-ÿ]+(?:[\s'-][A-Za-zÀ-ÿ]+)*$/;
-
-
-        if (!cityPattern.test(city)) {
-
-            alert(
-                "Please enter a valid city name."
-            );
-
-            document
-                .getElementById("city")
-                .focus();
-
-            return;
-        }
-
-
-        if (city.length < 2) {
-
-            alert(
-                "City name must contain at least 2 characters."
-            );
-
-            document
-                .getElementById("city")
-                .focus();
-
-            return;
-        }
-
-
-        if (city.length > 50) {
-
-            alert(
-                "City name must not exceed 50 characters."
-            );
-
-            document
-                .getElementById("city")
-                .focus();
-
-            return;
-        }
-
-
-        /* PAYMENT */
-
-        const paymentElement =
+        const selected =
             document.querySelector(
                 'input[name="payment_method"]:checked'
             );
 
 
-        if (!paymentElement) {
-
-            alert(
-                "Please select a payment method."
-            );
-
+        if (!selected) {
             return;
         }
 
 
-        /* CART DATA */
+        // Remove active class
+        paymentOptions.forEach(
+            function (option) {
 
-        cartDataInput.value =
-            JSON.stringify(cart);
+                option.classList.remove(
+                    "active"
+                );
 
-
-        console.log(
-            "CART DATA SENT:",
-            cartDataInput.value
+            }
         );
 
 
-        /* COD */
+        // Add active class
+        const selectedOption =
+            selected.closest(
+                ".payment-option"
+            );
 
-        if (
-            paymentElement.value === "cod"
-        ) {
 
-            checkoutForm.submit();
+        if (selectedOption) {
 
-            return;
+            selectedOption.classList.add(
+                "active"
+            );
+
         }
 
 
-        /* ESEWA */
+        // ========================================================
+        // COD
+        // ========================================================
 
         if (
-            paymentElement.value === "esewa"
+            selected.value === "cod"
         ) {
 
-            alert(
-                "eSewa integration will be connected in the next step."
-            );
+            paymentInfo.innerHTML = `
 
-            return;
+                <span class="info-icon">
+                    🔒
+                </span>
+
+                <div>
+
+                    <strong>
+                        Cash on Delivery selected
+                    </strong>
+
+                    <p>
+                        You can pay when your order arrives.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            placeOrderBtn.textContent =
+                "Place Order";
         }
 
 
-        /* KHALTI */
+        // ========================================================
+        // ESEWA
+        // ========================================================
 
         if (
-            paymentElement.value === "khalti"
+            selected.value === "esewa"
         ) {
 
-            alert(
-                "Khalti integration will be connected in the next step."
-            );
+            paymentInfo.innerHTML = `
 
-            return;
+                <span class="info-icon">
+                    🟢
+                </span>
+
+                <div>
+
+                    <strong>
+                        eSewa payment selected
+                    </strong>
+
+                    <p>
+                        You will continue to eSewa securely after checkout.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            placeOrderBtn.textContent =
+                "Continue to eSewa";
+        }
+
+
+        // ========================================================
+        // KHALTI
+        // ========================================================
+
+        if (
+            selected.value === "khalti"
+        ) {
+
+            paymentInfo.innerHTML = `
+
+                <span class="info-icon">
+                    🟣
+                </span>
+
+                <div>
+
+                    <strong>
+                        Khalti payment selected
+                    </strong>
+
+                    <p>
+                        You will continue to Khalti securely after checkout.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            placeOrderBtn.textContent =
+                "Continue to Khalti";
         }
 
     }
-);
 
 
-/* =========================
-   INITIAL LOAD
-========================= */
+    // ============================================================
+    // PAYMENT OPTION CLICK
+    // ============================================================
 
-displayCart();
+    paymentOptions.forEach(
+        function (option) {
 
-updatePaymentUI();
+            option.addEventListener(
+                "click",
+                updatePaymentUI
+            );
 
+        }
+    );
+
+
+    // ============================================================
+    // FORM SUBMIT
+    // ============================================================
+
+    checkoutForm.addEventListener(
+        "submit",
+        function (event) {
+
+            /*
+                Stop the normal submit temporarily.
+
+                We first validate all information.
+            */
+
+            event.preventDefault();
+
+
+            // ====================================================
+            // EMPTY CART
+            // ====================================================
+
+            if (
+                !Array.isArray(cart) ||
+                cart.length === 0
+            ) {
+
+                alert(
+                    "Your cart is empty!"
+                );
+
+                return;
+            }
+
+
+            // ====================================================
+            // GET FORM VALUES
+            // ====================================================
+
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById("phone")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+
+            const address =
+                document
+                    .getElementById("address")
+                    .value
+                    .trim();
+
+
+            const city =
+                document
+                    .getElementById("city")
+                    .value
+                    .trim();
+
+
+            // ====================================================
+            // REQUIRED VALIDATION
+            // ====================================================
+
+            if (!name) {
+
+                alert(
+                    "Please enter your full name."
+                );
+
+                document
+                    .getElementById("name")
+                    .focus();
+
+                return;
+            }
+
+
+            if (!phone) {
+
+                alert(
+                    "Please enter your phone number."
+                );
+
+                document
+                    .getElementById("phone")
+                    .focus();
+
+                return;
+            }
+
+
+            if (!email) {
+
+                alert(
+                    "Please enter your email address."
+                );
+
+                document
+                    .getElementById("email")
+                    .focus();
+
+                return;
+            }
+
+
+            if (!address) {
+
+                alert(
+                    "Please enter your delivery address."
+                );
+
+                document
+                    .getElementById("address")
+                    .focus();
+
+                return;
+            }
+
+
+            if (!city) {
+
+                alert(
+                    "Please enter your city."
+                );
+
+                document
+                    .getElementById("city")
+                    .focus();
+
+                return;
+            }
+
+
+            // ====================================================
+            // NAME VALIDATION
+            // ====================================================
+
+            const namePattern =
+                /^[A-Za-zÀ-ÿ]+(?:[\s'-][A-Za-zÀ-ÿ]+)*$/;
+
+
+            if (
+                !namePattern.test(name)
+            ) {
+
+                alert(
+                    "Please enter a valid name."
+                );
+
+                document
+                    .getElementById("name")
+                    .focus();
+
+                return;
+            }
+
+
+            if (name.length < 2) {
+
+                alert(
+                    "Name must contain at least 2 characters."
+                );
+
+                document
+                    .getElementById("name")
+                    .focus();
+
+                return;
+            }
+
+
+            if (name.length > 50) {
+
+                alert(
+                    "Name must not exceed 50 characters."
+                );
+
+                document
+                    .getElementById("name")
+                    .focus();
+
+                return;
+            }
+
+
+            // ====================================================
+            // PHONE VALIDATION
+            // ====================================================
+
+            const phonePattern =
+                /^(?:\+977[- ]?)?9[678]\d{8}$/;
+
+
+            if (
+                !phonePattern.test(phone)
+            ) {
+
+                alert(
+                    "Please enter a valid Nepal phone number."
+                );
+
+                document
+                    .getElementById("phone")
+                    .focus();
+
+                return;
+            }
+
+
+            // ====================================================
+            // EMAIL VALIDATION
+            // ====================================================
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+
+            if (
+                !emailPattern.test(email)
+            ) {
+
+                alert(
+                    "Please enter a valid email address."
+                );
+
+                document
+                    .getElementById("email")
+                    .focus();
+
+                return;
+            }
+
+
+            if (email.length > 100) {
+
+                alert(
+                    "Email address must not exceed 100 characters."
+                );
+
+                document
+                    .getElementById("email")
+                    .focus();
+
+                return;
+            }
+
+
+            // ====================================================
+            // ADDRESS VALIDATION
+            // ====================================================
+
+            if (address.length < 5) {
+
+                alert(
+                    "Please enter a complete delivery address."
+                );
+
+                document
+                    .getElementById("address")
+                    .focus();
+
+                return;
+            }
+
+
+            if (address.length > 200) {
+
+                alert(
+                    "Address must not exceed 200 characters."
+                );
+
+                document
+                    .getElementById("address")
+                    .focus();
+
+                return;
+            }
+
+
+            // ====================================================
+            // CITY VALIDATION
+            // ====================================================
+
+            const cityPattern =
+                /^[A-Za-zÀ-ÿ]+(?:[\s'-][A-Za-zÀ-ÿ]+)*$/;
+
+
+            if (
+                !cityPattern.test(city)
+            ) {
+
+                alert(
+                    "Please enter a valid city name."
+                );
+
+                document
+                    .getElementById("city")
+                    .focus();
+
+                return;
+            }
+
+
+            if (city.length < 2) {
+
+                alert(
+                    "City name must contain at least 2 characters."
+                );
+
+                document
+                    .getElementById("city")
+                    .focus();
+
+                return;
+            }
+
+
+            if (city.length > 50) {
+
+                alert(
+                    "City name must not exceed 50 characters."
+                );
+
+                document
+                    .getElementById("city")
+                    .focus();
+
+                return;
+            }
+
+
+            // ====================================================
+            // PAYMENT METHOD
+            // ====================================================
+
+            const paymentElement =
+                document.querySelector(
+                    'input[name="payment_method"]:checked'
+                );
+
+
+            if (!paymentElement) {
+
+                alert(
+                    "Please select a payment method."
+                );
+
+                return;
+            }
+
+
+            // ====================================================
+            // PUT CART DATA INTO HIDDEN INPUT
+            // ====================================================
+
+            cartDataInput.value =
+                JSON.stringify(cart);
+
+
+            console.log(
+                "CART DATA SENT:",
+                cartDataInput.value
+            );
+
+
+            // ====================================================
+            // COD
+            // ====================================================
+
+            if (
+                paymentElement.value === "cod"
+            ) {
+
+                placeOrderBtn.disabled = true;
+
+                placeOrderBtn.textContent =
+                    "Processing...";
+
+
+                /*
+                    Submit normally to Django.
+
+                    Django checkout() will create the order
+                    and redirect to order_success.
+                */
+
+                checkoutForm.submit();
+
+                return;
+            }
+
+
+            // ====================================================
+            // ESEWA
+            // ====================================================
+
+            if (
+                paymentElement.value === "esewa"
+            ) {
+
+                placeOrderBtn.disabled = true;
+
+                placeOrderBtn.textContent =
+                    "Connecting to eSewa...";
+
+
+                /*
+                    IMPORTANT:
+
+                    Do NOT show the old alert.
+
+                    Submit the form to Django.
+
+                    Django:
+                        checkout()
+                            ↓
+                        create Order
+                            ↓
+                        payment_method == "esewa"
+                            ↓
+                        redirect("esewa_payment")
+                            ↓
+                        eSewa payment page
+                */
+
+                checkoutForm.submit();
+
+                return;
+            }
+
+
+            // ====================================================
+            // KHALTI
+            // ====================================================
+
+            if (
+                paymentElement.value === "khalti"
+            ) {
+
+                alert(
+                    "Khalti integration will be connected in the next step."
+                );
+
+                return;
+            }
+
+        }
+    );
+
+
+    // ============================================================
+    // INITIAL LOAD
+    // ============================================================
+
+    displayCart();
+
+    updatePaymentUI();
 
 });

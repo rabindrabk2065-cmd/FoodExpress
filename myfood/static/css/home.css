@@ -546,3 +546,42 @@ body {
         flex-wrap: wrap;
     }
 }
+
+/* =========================
+   language translates code ho 
+========================= */
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+.language-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.language-form label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.language-form select {
+    padding: 8px 32px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+.language-form select:hover {
+    border-color: #999;
+}
+
+.language-form select:focus {
+    border-color: #555;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+}

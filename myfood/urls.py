@@ -48,4 +48,23 @@ path(
 path("admin-panel/foods/", views.admin_foods, name="admin_foods"),
 path("admin-panel/categories/", views.admin_categories, name="admin_categories"),
 path("admin-panel/users/", views.admin_users, name="admin_users"),
+
+  #esewa payment
+path(
+        "esewa/payment/<int:order_id>/",
+        views.esewa_payment,
+        name="esewa_payment"
+    ),
+
+    path(
+        "esewa/success/",
+        views.esewa_success,
+        name="esewa_success"
+    ),
+
+    path(
+        "esewa/failure/",
+        views.esewa_failure,
+        name="esewa_failure"
+    ),
 ]
